@@ -1,0 +1,24 @@
+{
+  "name": "pili",
+  "version": "1.0.0",
+  "description": "Pili server-side library for NodeJS",
+  "main": "./pili",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pili-io/pili-sdk-nodejs.git"
+  },
+  "keywords": [
+    "pili",
+    "rtmp",
+    "streaming"
+  ],
+  "author": "0dayZh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pili-io/pili-sdk-nodejs/issues"
+  },
+  "homepage": "https://github.com/pili-io/pili-sdk-nodejs"
+}
