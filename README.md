@@ -24,7 +24,7 @@ var clientOptions = {
 var publishOptions = {
   rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
   streamPublishKey:      'STREAM_PUBLISH_KEY',
-  streamPublishSecurity: 'SECURITY' // 'static' or 'dynamic'
+  streamPublishSecurity: 'dynamic' // 'static' or 'dynamic'
 };
 
 // Replace with your customized domains
