@@ -1,0 +1,31 @@
+{
+  "name": "pili",
+  "version": "1.0.0",
+  "description": "Pili server-side library for NodeJS",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pili-io/pili-sdk-nodejs.git"
+  },
+  "keywords": [
+    "qiniu",
+    "pili",
+    "streaming",
+    "web-service"
+  ],
+  "author": "Pili Engineering, Qiniu Inc.",
+  "contributors": [
+    {
+      "name": "0dayZh",
+      "email": "0day.zh@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pili-io/pili-sdk-nodejs/issues"
+  },
+  "homepage": "https://github.com/pili-io/pili-sdk-nodejs",
+  "dependencies": {
+    "superagent": "^1.2.0"
+  }
+}
