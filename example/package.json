@@ -1,0 +1,8 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "pili nodejs exmaple",
+  "main": "app.js",
+  "author": "0day.zh@gmail.com",
+  "license": "MIT"
+}
