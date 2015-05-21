@@ -125,3 +125,10 @@ var rtmpLiveUrl = play.rtmpLiveUrl(preset);
 var hlsLiveUrl = play.hlsLiveUrl(preset);
 var hlsPlaybackUrl = play.hlsPlaybackUrl(preset);
 ```
+
+## History
+
+- 1.0.0
+	- Init sdk
+	- Add Stream API
+	- Add publish and play policy
