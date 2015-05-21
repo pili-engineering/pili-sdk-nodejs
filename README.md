@@ -45,12 +45,12 @@ var client = new Pili.Client(clientOptions);
 #### Create a new streamPublishKey
 
 ```javascript
-var title = null;           // optional.
 var hub = HUB;              // required.
+var title = null;           // optional.
 var publishKey = null;      // optional.
 var publishSecurity = null; // optional. 'static' or 'dynamic', 'dynamic' as default.
 
-client.createStream(title, bub, publishKey, publishSecurity, function(err, data) {
+client.createStream(hub, title, publishKey, publishSecurity, function(err, data) {
   // handle request
 });
 ```
@@ -123,7 +123,7 @@ var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All p
 
 var rtmpLiveUrl = play.rtmpLiveUrl(preset);
 var hlsLiveUrl = play.hlsLiveUrl(preset);
-var hlsPlaybackUrl = play.hlsPlaybackUrl(preset);
+var hlsPlaybackUrl = play.hlsPlaybackUrl(startTime, endTime, preset);
 ```
 
 ## History
