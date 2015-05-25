@@ -2,31 +2,19 @@
 
 var Pili = require('../index.js');
 
-var HUB = 'HUB_NAME';
+// ========================== Client ============================
 
-var clientOptions = {
+var creds = {
   accessKey: 'YOUR_ACCESS_KEY',
   secretKey: 'YOUR_SECRET_KEY'
 };
 
-// Replace with your customized domains
-var publishOptions = {
-  rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
-  streamPublishKey:      'STREAM_PUBLISH_KEY',
-  streamPublishSecurity: 'SECURITY' // 'static' or 'dynamic'
-};
+var HUB = 'HUB_NAME';
 
-// Replace with your customized domains
-var playOptions = {
-  rtmpPlayHost: 'xxx.live1.z1.pili.qiniucdn.com',
-  hlsPlayHost:  'xxx.hls1.z1.pili.qiniucdn.com'
-};
-
-// ========================== Client ============================
 /**
  * Create a Pili client
  */
-var client = new Pili.Client(clientOptions);
+var client = new Pili.Client(creds);
 
 /**
  * Create a new streamPublishKey
@@ -36,7 +24,7 @@ var title = null;           // optional.
 var publishKey = null;      // optional.
 var publishSecurity = null; // optional. 'static' or 'dynamic', 'dynamic' as default.
 
-client.createStream(hub, title, publishKey, publishSecurity, function(err, data) {
+client.createStream(hub, title, publishKey, publishSecurity, function(err, stream) {
   // handle request
 });
 
@@ -45,7 +33,7 @@ client.createStream(hub, title, publishKey, publishSecurity, function(err, data)
  */
 var streamId = null;
 // Suppose you own a streamId.
-client.getStream(streamId, function(err, data) {
+client.getStream(streamId, function(err, stream) {
   // handle request
 });
 
@@ -53,7 +41,7 @@ client.getStream(streamId, function(err, data) {
 /**
  * Update a stream
  */
-client.updateStream(streamId, publishKey, publishSecurity, function(err, data) {
+client.updateStream(streamId, publishKey, publishSecurity, function(err, stream) {
   // handle request
 });
 
@@ -63,7 +51,7 @@ client.updateStream(streamId, publishKey, publishSecurity, function(err, data) {
  var hub = HUB;     // required.
  var marker = null; // optional.
  var limit = 0;     // optional.
-client.listStreams(hub, marker, limit, function(err, data) {
+client.listStreams(hub, marker, limit, function(err, streams) {
   // handle request
 });
 
@@ -84,18 +72,39 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
 });
 
 // =========================== Policy =============================
+// Replace with your customized domains
+var publishParams = {
+  streamId:              streamId,
+  rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
+  streamPublishKey:      'STREAM_PUBLISH_KEY',
+  streamPublishSecurity: 'dynamic' // 'static' or 'dynamic'
+};
+
+// Replace with your customized domains
+var playParams = {
+  streamId:     streamId,
+  rtmpPlayHost: 'xxx.live1.z1.pili.qiniucdn.com',
+  hlsPlayHost:  'xxx.hls1.z1.pili.qiniucdn.com'
+};
+
 /**
- * Create a publish policy
+ * Create a publish policy directly
  */
-var publish = new Pili.PublishPolicy(publishOptions);
+var publish = new Pili.PublishPolicy(publishParams);
+
+// or generate one from stream object
+var publish = stream.generatePublishPolicy(publishParams.rtmpPublishHost);
 
 // Publish policy operations
 var pushUrl = publish.url();
 
 /**
- * Create a play policy
+ * Create a play policy directly
  */
-var play = new Pili.PlayPolicy(playOptions);
+var play = new Pili.PlayPolicy(playParams);
+
+// or generate one from stream object
+var play = stream.generatePlayPolicy(playParams.rtmpPlayHost, playParams.hlsPlayHost);
 
 // Play policy operations
 var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
