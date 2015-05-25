@@ -1,5 +1,25 @@
 # Pili server-side library for NodeJS
 
+## Content
+
+- [Installation](#Installation)
+- [Usage](#Usage)
+	- [Client](#Client)
+		- [Client Configuration](#Client-Configuration)
+		- [Create a Pili client](#Create-a-Pili-client)
+		- [Create a stream](#Create-a-stream)
+		- [Get a stream](#Get-a-stream)
+		- [Update a stream](#Update-a-stream)
+		- [List streams](#List-streams)
+		- [Delete a stream](#Delete-a-stream)
+		- [Get stream segments](#Get-stream-segments)
+	- [Stream](#Stream)
+		- [Generate Play Policy](#Generate-Play-Policy)
+		- [Generate Publish Policy](#Generate-Publish-Policy)
+	- [Policy](#Policy)
+		- [Policy Configurations](#Policy-Configurations)
+- [History](#History)
+
 ## Installaion
 
 ```
@@ -8,33 +28,20 @@ npm install pili --save
 
 ## Usage
 
-### Configuration
+### Client
+
+#### Client Configuration
 
 ```javascript
 var Pili = require('pili');
 
-var HUB = 'HUB_NAME';
-
-var clientOptions = {
+var creds = {
   accessKey: 'YOUR_ACCESS_KEY',
   secretKey: 'YOUR_SECRET_KEY'
 };
 
-// Replace with your customized domains
-var publishOptions = {
-  rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
-  streamPublishKey:      'STREAM_PUBLISH_KEY',
-  streamPublishSecurity: 'dynamic' // 'static' or 'dynamic'
-};
-
-// Replace with your customized domains
-var playOptions = {
-  rtmpPlayHost: 'xxx.live1.z1.pili.qiniucdn.com',
-  hlsPlayHost:  'xxx.hls1.z1.pili.qiniucdn.com'
-};
+var HUB = 'HUB_NAME';
 ```
-
-### Client
 
 #### Create a Pili client
 
@@ -42,7 +49,7 @@ var playOptions = {
 var client = new Pili.Client(clientOptions);
 ```
 
-#### Create a new streamPublishKey
+#### Create a stream
 
 ```javascript
 var hub = HUB;              // required.
@@ -50,7 +57,7 @@ var title = null;           // optional.
 var publishKey = null;      // optional.
 var publishSecurity = null; // optional. 'static' or 'dynamic', 'dynamic' as default.
 
-client.createStream(hub, title, publishKey, publishSecurity, function(err, data) {
+client.createStream(hub, title, publishKey, publishSecurity, function(err, stream) {
   // handle request
 });
 ```
@@ -60,7 +67,7 @@ client.createStream(hub, title, publishKey, publishSecurity, function(err, data)
 ```javascript
 var streamId = null;
 // Suppose you own a streamId.
-client.getStream(streamId, function(err, data) {
+client.getStream(streamId, function(err, stream) {
   // handle request
 });
 ```
@@ -68,7 +75,7 @@ client.getStream(streamId, function(err, data) {
 #### Update a stream
 
 ```javascript
-client.updateStream(streamId, publishKey, publishSecurity, function(err, data) {
+client.updateStream(streamId, publishKey, publishSecurity, function(err, stream) {
   // handle request
 });
 ```
@@ -79,7 +86,7 @@ client.updateStream(streamId, publishKey, publishSecurity, function(err, data) {
  var hub = HUB;     // required.
  var marker = null; // optional.
  var limit = 0;     // optional.
-client.listStreams(hub, marker, limit, function(err, data) {
+client.listStreams(hub, marker, limit, function(err, streams) {
   // handle request
 });
 ```
@@ -102,12 +109,46 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
 });
 ```
 
+### Stream
+
+#### Generate Play Policy
+
+```javascript
+var rtmpPlayHost = 'xxx.live1.z1.pili.qiniucdn.com';
+var hlsPlayHost = 'xxx.hls1.z1.pili.qiniucdn.com';
+var play = stream.generatePlayPolicy(rtmpPlayHost, hlsPlayHost);
+```
+
+#### Generate Publish Policy
+
+```javascript
+var rtmpPublishHost = 'xxx.pub.z1.pili.qiniup.com';
+var play = stream.generatePublishPolicy(rtmpPublishHost);
+```
+
 ### Policy
+
+#### Policy Configurations
+
+```
+// Replace with your customized domains
+var publishParams = {
+  rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
+  streamPublishKey:      'STREAM_PUBLISH_KEY',
+  streamPublishSecurity: 'dynamic' // 'static' or 'dynamic'
+};
+
+// Replace with your customized domains
+var playParams = {
+  rtmpPlayHost: 'xxx.live1.z1.pili.qiniucdn.com',
+  hlsPlayHost:  'xxx.hls1.z1.pili.qiniucdn.com'
+};
+```
 
 #### Create a publish policy
 
 ```javascript
-var publish = new Pili.PublishPolicy(publishOptions);
+var publish = new Pili.PublishPolicy(publishParams);
 
 // Publish policy operations
 var pushUrl = publish.url();
@@ -116,7 +157,7 @@ var pushUrl = publish.url();
 #### Create a play policy
 
 ```javascript
-var play = new Pili.PlayPolicy(playOptions);
+var play = new Pili.PlayPolicy(playParams);
 
 // Play policy operations
 var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
