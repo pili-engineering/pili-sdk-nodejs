@@ -46,7 +46,7 @@ var HUB = 'HUB_NAME';
 #### Create a Pili client
 
 ```javascript
-var client = new Pili.Client(clientOptions);
+var client = new Pili.Client(creds);
 ```
 
 #### Create a stream
