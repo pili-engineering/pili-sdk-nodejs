@@ -1,14 +1,25 @@
 'use strict';
 
-var Pili = require('../index.js')
-  , config = Pili.config;
+var Pili = require('../index.js');
+
+// ======================== Configurations =========================
+var creds = {
+  accessKey: 'QiniuAccessKey',
+  secretKey: 'QiniuSecretKey'
+};
+
+var HUB = 'hubName';
+
+var RTMP_PUBLISH_HOST = "xxx.pub.z1.pili.qiniup.com";
+var RTMP_PLAY_HOST    = "xxx.live1.z1.pili.qiniucdn.com";
+var HLS_PLAY_HOST     = "xxx.hls1.z1.pili.qiniucdn.com";
 
 // ========================== Client ============================
 
 /**
  * Create a Pili client
  */
-var client = new Pili.Client(config.CREDS);
+var client = new Pili.Client(creds);
 
 /**
  * Create a new streamPublishKey
@@ -78,23 +89,24 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
   // handle request
 });
 
+/**
+ * Generate RTMP publish URL
+ */
+var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
 
 /**
- * Create a publish policy from stream object
+ * Generate RTMP live play URL
  */
-var publish = stream.publishPolicy();
-
-// Publish policy operations
-var pushUrl = publish.url();
+ var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
+ 
+var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, preset);
 
 /**
- * Create a play policy frome stream object
+ * Generate HLS live play URL
  */
-var play = stream.playPolicy();
+var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, preset);
 
-// Play policy operations
-var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
-
-var rtmpLiveUrl = play.rtmpLiveUrl(preset);
-var hlsLiveUrl = play.hlsLiveUrl(preset);
-var hlsPlaybackUrl = play.hlsPlaybackUrl(startTime, endTime, preset);
+/**
+ * Generate HLS playback URL
+ */
+var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, preset);

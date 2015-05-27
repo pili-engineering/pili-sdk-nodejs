@@ -14,8 +14,10 @@
 		- [Delete a stream](#Delete-a-stream)
 		- [Get stream segments](#Get-stream-segments)
 	- [Stream](#Stream)
-		- [Create Play Policy](#Create-Play-Policy)
-		- [Create Publish Policy](#Create-Publish-Policy)
+		- [Generate RTMP publish URL](#Generate-RTMP-publish-URL)
+		- [Generate RTMP live play URL](#Generate-RTMP-live-play-URL)
+		- [Generate HLS live play URL](#Generate-HLS-live-play-URL)
+		- [Generate HLS playback URL](#Generate-HLS-playback-URL)
 - [History](#History)
 
 ## Installaion
@@ -28,28 +30,19 @@ npm install pili --save
 
 ### Configuration
 
-Edit configuration in ```/lib/conf.js``` file
 ```javascript
-// Change the null values to your account values
-var config = {
-  API_HOST          : 'pili.qiniuapi.com',
-  API_VERSION       : 'v1',
-  RTMP_PUBULISH_HOST: null,
-  RTMP_PLAY_HOST    : null,
-  HLS_PLAY_HOST     : null,
-  HUB               : null,
-  CREDS             : {
-    ACCESS_KEY  : null,
-    SECRET_KEY  : null
-  },
-}
-```
+var Pili = require('pili');
 
-### Include Pili
+var creds = {
+  accessKey: 'QiniuAccessKey',
+  secretKey: 'QiniuSecretKey'
+};
 
-```javascript
-var Pili = require('../index.js')
-  , config = Pili.config;
+var HUB = 'hubName';
+
+var RTMP_PUBLISH_HOST = "xxx.pub.z1.pili.qiniup.com";
+var RTMP_PLAY_HOST    = "xxx.live1.z1.pili.qiniucdn.com";
+var HLS_PLAY_HOST     = "xxx.hls1.z1.pili.qiniucdn.com";
 ```
 
 ### Client
@@ -135,33 +128,36 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
 
 ### Stream
 
-#### Create a publish policy
+#### Generate RTMP publish URL
 
 ```javascript
-var publish = stream.publishPolicy();
-
-// Publish policy operations
-var pushUrl = publish.url();
+var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
 ```
 
-#### Create a play policy
+#### Generate RTMP live play URL
 
 ```javascript
-var play = stream.playPolicy();
-
-// Play policy operations
 var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
+ 
+var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, preset);
+```
 
-var rtmpLiveUrl = play.rtmpLiveUrl(preset);
-var hlsLiveUrl = play.hlsLiveUrl(preset);
-var hlsPlaybackUrl = play.hlsPlaybackUrl(startTime, endTime, preset);
+#### Generate HLS live play URL
+
+```javascript
+var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, preset);
+```
+
+#### Generate HLS playback URL
+
+```javascript
+var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, preset);
 ```
 
 ## History
 
 - 1.0.1
-	- Add conf.js
-	- Update Stream policy create functions
+	- Update Stream publish and play url generate functions
 - 1.0.0
 	- Init sdk
 	- Add Stream API
