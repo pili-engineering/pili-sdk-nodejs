@@ -33,10 +33,8 @@ npm install pili --save
 ```javascript
 var Pili = require('pili');
 
-var creds = {
-  accessKey: 'QiniuAccessKey',
-  secretKey: 'QiniuSecretKey'
-};
+var ACCESS_KEY = 'QiniuAccessKey';
+var SECRETE_KEY = 'QiniuSecretKey';
 
 var HUB = 'hubName';
 
@@ -50,7 +48,7 @@ var HLS_PLAY_HOST     = "xxx.hls1.z1.pili.qiniucdn.com";
 #### Create a Pili client
 
 ```javascript
-var client = new Pili.Client(creds);
+var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY);
 ```
 
 #### Create a stream
@@ -137,25 +135,27 @@ var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
 #### Generate RTMP live play URL
 
 ```javascript
-var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
+var profile = null;  // optional, just like '720p', '480p', '360p', '240p'. All profiles should be defined first.
  
-var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, preset);
+var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, profile);
 ```
 
 #### Generate HLS live play URL
 
 ```javascript
-var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, preset);
+var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, profile);
 ```
 
 #### Generate HLS playback URL
 
 ```javascript
-var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, preset);
+var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, profile);
 ```
 
 ## History
 
+- 1.0.2
+	- Update client create function
 - 1.0.1
 	- Update Stream publish and play url generate functions
 - 1.0.0
