@@ -23,11 +23,13 @@ var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY);
  * Create a new streamPublishKey
  */
 var hub = HUB;              // required.
-var title = null;           // optional.
-var publishKey = null;      // optional.
-var publishSecurity = null; // optional. 'static' or 'dynamic', 'dynamic' as default.
+var options = {
+  'title': title, // optional
+  'publishKey': 'publishKey', // optional
+  'publishSecrity': 'dynamic' // optional
+};
 
-client.createStream(hub, title, publishKey, publishSecurity, function(err, stream) {
+client.createStream(hub, options, function(err, stream) {
   // Log stream
   // {
   //    id: 'STREAM_ID',
@@ -44,8 +46,7 @@ client.createStream(hub, title, publishKey, publishSecurity, function(err, strea
 /**
  * Get a stream
  */
-var streamId = null;
-// Suppose you own a streamId.
+var streamId = 'streamId';  // required
 client.getStream(streamId, function(err, stream) {
   // handle request
 });
@@ -54,17 +55,24 @@ client.getStream(streamId, function(err, stream) {
 /**
  * Update a stream
  */
-client.updateStream(streamId, publishKey, publishSecurity, function(err, stream) {
+var streamId = 'streamId';  // required
+var options = {
+  'publishKey': 'publishKey', // optional
+  'publishSecrity': 'dynamic' // optional
+};
+client.updateStream(streamId, options, function(err, stream) {
   // handle request
 });
 
 /**
  * List streams
  */
- var hub = HUB;     // required.
- var marker = null; // optional.
- var limit = 0;     // optional.
-client.listStreams(hub, marker, limit, function(err, streams) {
+var hub = HUB;     // required.
+var options = {
+ marker: 'marker',  // optional
+ limit: 1000  // optional
+};
+client.listStreams(hub, options, function(err, streams) {
   streams.forEach(function(stream) {
     // do something with stream object
     console.log(stream);
@@ -81,9 +89,13 @@ client.deleteStream(streamId, function(err, data) {
 /**
  * Get stream segments
  */
-var startTime = 0;  // optional.
-var endTime = 0;    // optional.
-client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
+var streamId = 'streamId';  // required
+var options = {
+  startTime: startTime, // optional
+  endTime: endTime  // optional
+}；
+
+client.getStreamSegments(streamId, options, function(err, data) {
   // handle request
 });
 
@@ -95,16 +107,26 @@ var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
 /**
  * Generate RTMP live play URL
  */
-var profile = null;  // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
+var options = {
+  profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
+};
 
-var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, profile);
+var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, options);
 
 /**
  * Generate HLS live play URL
  */
-var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, profile);
+var options = {
+ profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
+};
+
+var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, options);
 
 /**
  * Generate HLS playback URL
  */
+var options = {
+ profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
+};
+
 var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, profile);
