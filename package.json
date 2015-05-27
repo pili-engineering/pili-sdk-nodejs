@@ -1,6 +1,6 @@
 {
   "name": "pili",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pili server-side library for NodeJS",
   "main": "index.js",
   "repository": {
@@ -8,10 +8,13 @@
     "url": "git@github.com:pili-io/pili-sdk-nodejs.git"
   },
   "keywords": [
-    "qiniu",
+    "web-service",
+    "rtmp",
+    "hls",
     "pili",
     "streaming",
-    "web-service"
+    "qiniu",
+    "cloud"
   ],
   "author": "Pili Engineering, Qiniu Inc.",
   "contributors": [
@@ -24,8 +27,5 @@
   "bugs": {
     "url": "https://github.com/pili-io/pili-sdk-nodejs/issues"
   },
-  "homepage": "https://github.com/pili-io/pili-sdk-nodejs",
-  "dependencies": {
-    "superagent": "^1.2.0"
-  }
+  "homepage": "https://github.com/pili-io/pili-sdk-nodejs"
 }

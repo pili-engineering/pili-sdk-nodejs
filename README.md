@@ -4,8 +4,8 @@
 
 - [Installation](#Installation)
 - [Usage](#Usage)
+	- [Configuration](#Configuration)
 	- [Client](#Client)
-		- [Client Configuration](#Client-Configuration)
 		- [Create a Pili client](#Create-a-Pili-client)
 		- [Create a stream](#Create-a-stream)
 		- [Get a stream](#Get-a-stream)
@@ -14,10 +14,8 @@
 		- [Delete a stream](#Delete-a-stream)
 		- [Get stream segments](#Get-stream-segments)
 	- [Stream](#Stream)
-		- [Generate Play Policy](#Generate-Play-Policy)
-		- [Generate Publish Policy](#Generate-Publish-Policy)
-	- [Policy](#Policy)
-		- [Policy Configurations](#Policy-Configurations)
+		- [Create Play Policy](#Create-Play-Policy)
+		- [Create Publish Policy](#Create-Publish-Policy)
 - [History](#History)
 
 ## Installaion
@@ -28,20 +26,33 @@ npm install pili --save
 
 ## Usage
 
-### Client
+### Configuration
 
-#### Client Configuration
+Edit configuration in ```/lib/conf.js``` file
+```javascript
+// Change the null values to your account values
+var config = {
+  API_HOST          : 'pili.qiniuapi.com',
+  API_VERSION       : 'v1',
+  RTMP_PUBULISH_HOST: null,
+  RTMP_PLAY_HOST    : null,
+  HLS_PLAY_HOST     : null,
+  HUB               : null,
+  CREDS             : {
+    ACCESS_KEY  : null,
+    SECRET_KEY  : null
+  },
+}
+```
+
+### Include Pili
 
 ```javascript
-var Pili = require('pili');
-
-var creds = {
-  accessKey: 'YOUR_ACCESS_KEY',
-  secretKey: 'YOUR_SECRET_KEY'
-};
-
-var HUB = 'HUB_NAME';
+var Pili = require('../index.js')
+  , config = Pili.config;
 ```
+
+### Client
 
 #### Create a Pili client
 
@@ -58,7 +69,17 @@ var publishKey = null;      // optional.
 var publishSecurity = null; // optional. 'static' or 'dynamic', 'dynamic' as default.
 
 client.createStream(hub, title, publishKey, publishSecurity, function(err, stream) {
-  // handle request
+  // Log stream
+  // {
+  //    id: 'STREAM_ID',
+  //    title: 'STREAM_TITLE'.
+  //    hub: 'HUB_NAME',
+  //    publishKey: 'PUBLISH_KEY',
+  //    publishSecurity: 'PUBLISH_SECURITY',
+  //    createdAt: 'CREATED_TIME',
+  //    updatedAt: 'UPDATED_TIME'
+  // }
+  console.log(stream);
 });
 ```
 
@@ -87,7 +108,10 @@ client.updateStream(streamId, publishKey, publishSecurity, function(err, stream)
  var marker = null; // optional.
  var limit = 0;     // optional.
 client.listStreams(hub, marker, limit, function(err, streams) {
-  // handle request
+  streams.forEach(function(stream) {
+    // do something with stream object
+    console.log(stream);
+  });
 });
 ```
 
@@ -111,44 +135,10 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
 
 ### Stream
 
-#### Generate Play Policy
-
-```javascript
-var rtmpPlayHost = 'xxx.live1.z1.pili.qiniucdn.com';
-var hlsPlayHost = 'xxx.hls1.z1.pili.qiniucdn.com';
-var play = stream.generatePlayPolicy(rtmpPlayHost, hlsPlayHost);
-```
-
-#### Generate Publish Policy
-
-```javascript
-var rtmpPublishHost = 'xxx.pub.z1.pili.qiniup.com';
-var play = stream.generatePublishPolicy(rtmpPublishHost);
-```
-
-### Policy
-
-#### Policy Configurations
-
-```
-// Replace with your customized domains
-var publishParams = {
-  rtmpPublishHost:       'xxx.pub.z1.pili.qiniup.com',
-  streamPublishKey:      'STREAM_PUBLISH_KEY',
-  streamPublishSecurity: 'dynamic' // 'static' or 'dynamic'
-};
-
-// Replace with your customized domains
-var playParams = {
-  rtmpPlayHost: 'xxx.live1.z1.pili.qiniucdn.com',
-  hlsPlayHost:  'xxx.hls1.z1.pili.qiniucdn.com'
-};
-```
-
 #### Create a publish policy
 
 ```javascript
-var publish = new Pili.PublishPolicy(publishParams);
+var publish = stream.publishPolicy();
 
 // Publish policy operations
 var pushUrl = publish.url();
@@ -157,7 +147,7 @@ var pushUrl = publish.url();
 #### Create a play policy
 
 ```javascript
-var play = new Pili.PlayPolicy(playParams);
+var play = stream.playPolicy();
 
 // Play policy operations
 var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
@@ -169,6 +159,9 @@ var hlsPlaybackUrl = play.hlsPlaybackUrl(startTime, endTime, preset);
 
 ## History
 
+- 1.0.1
+	- Add conf.js
+	- Update Stream policy create functions
 - 1.0.0
 	- Init sdk
 	- Add Stream API
