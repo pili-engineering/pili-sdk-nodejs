@@ -57,7 +57,7 @@ var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY);
 ```javascript
 var hub = HUB;                   // required
 var options = {
-  title          : title,        // optional
+  title          : 'title',        // optional
   publishKey     : 'publishKey', // optional
   publishSecrity : 'dynamic'     // optional
 };
