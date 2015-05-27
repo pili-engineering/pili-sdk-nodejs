@@ -97,8 +97,8 @@ var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
 /**
  * Generate RTMP live play URL
  */
- var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
- 
+var preset = null;  // optional, just like '720p', '480p', '360p', '240p'. All presets should be defined first.
+
 var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, preset);
 
 /**
