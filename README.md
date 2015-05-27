@@ -55,11 +55,11 @@ var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY);
 #### Create a stream
 
 ```javascript
-var hub = HUB;              // required.
+var hub = HUB;                   // required
 var options = {
-  title: title, // optional
-  publishKey: 'publishKey', // optional
-  publishSecrity: 'dynamic' // optional
+  title          : title,        // optional
+  publishKey     : 'publishKey', // optional
+  publishSecrity : 'dynamic'     // optional
 };
 
 client.createStream(hub, options, function(err, stream) {
@@ -88,11 +88,11 @@ client.getStream(streamId, function(err, stream) {
 #### Update a stream
 
 ```javascript
-var streamId = 'streamId';  // required
+var streamId = 'streamId';        // required
 var options = {
-  publishKey: 'publishKey',   // optional
-  publishSecrity: 'dynamic',  // optional
-  disabled: true  // optional
+  publishKey     : 'publishKey',  // optional
+  publishSecrity : 'dynamic',     // optional
+  disabled       : true           // optional
 };
 
 client.updateStream(streamId, options, function(err, stream) {
@@ -103,11 +103,12 @@ client.updateStream(streamId, options, function(err, stream) {
 #### List streams
 
 ```javascript
-var hub = HUB;     // required.
+var hub = HUB;      // required
 var options = {
- marker: 'marker',  // optional
- limit: 1000  // optional
+ marker : 'marker', // optional
+ limit  : 1000      // optional
 };
+
 client.listStreams(hub, options, function(err, streams) {
   streams.forEach(function(stream) {
     // do something with stream object
@@ -129,8 +130,8 @@ client.deleteStream(streamId, function(err, data) {
 ```javascript
 var streamId = 'streamId';  // required
 var options = {
-  startTime: startTime, // optional, in second
-  endTime: endTime  // optional, in second
+  startTime : startTime,    // optional, in second, unix timestamp
+  endTime   : endTime       // optional, in second, unix timestamp
 }；
 
 client.getStreamSegments(streamId, options, function(err, data) {
