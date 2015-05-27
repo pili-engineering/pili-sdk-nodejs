@@ -60,6 +60,7 @@ var options = {
   publishSecrity: 'dynamic',  // optional
   disabled: true  // optional
 };
+
 client.updateStream(streamId, options, function(err, stream) {
   // handle request
 });
