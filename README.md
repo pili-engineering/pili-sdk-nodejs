@@ -133,8 +133,7 @@ client.getStreamSegments(streamId, startTime, endTime, function(err, data) {
 });
 ```
 
-### Policy
-
+### Stream
 
 #### Create a publish policy
 
