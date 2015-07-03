@@ -1,5 +1,15 @@
 # Pili server-side library for NodeJS
 
+## Features
+
+- [x] Stream operaitons (Create, Delete, Update, Get)
+- [x] Get Streams list
+- [x] Get Stream status
+- [x] Get Stream segments
+- [x] Generate RTMP publish URL
+- [x] Generate RTMP / HLS live play URL
+- [x] Generate HLS playback URL
+
 ## Content
 
 - [Installation](#Installation)
