@@ -216,6 +216,9 @@ var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, pr
 
 ## History
 
+- 1.0.4
+	- Add server error handle
+	- Fix merge bugs
 - 1.0.2
 	- Update client create function
 	- Update optional params
