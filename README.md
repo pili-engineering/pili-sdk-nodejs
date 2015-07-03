@@ -2,7 +2,7 @@
 
 ## Features
 
-- [x] Stream operaitons (Create, Delete, Update, Get)
+- [x] Stream operations (Create, Delete, Update, Get)
 - [x] Get Streams list
 - [x] Get Stream status
 - [x] Get Stream segments
