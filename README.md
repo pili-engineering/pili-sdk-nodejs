@@ -63,16 +63,21 @@ var options = {
 };
 
 client.createStream(hub, options, function(err, stream) {
-  // Log stream
-  // {
-  //    id: 'STREAM_ID',
-  //    title: 'STREAM_TITLE'.
-  //    hub: 'HUB_NAME',
-  //    publishKey: 'PUBLISH_KEY',
-  //    publishSecurity: 'PUBLISH_SECURITY',
-  //    disabled: false
-  // }
-  console.log(stream);
+  if (!err) {
+    // Log stream
+    // {
+    //    id: 'STREAM_ID',
+    //    title: 'STREAM_TITLE'.
+    //    hub: 'HUB_NAME',
+    //    publishKey: 'PUBLISH_KEY',
+    //    publishSecurity: 'PUBLISH_SECURITY',
+    //    disabled: false
+    // }
+    console.log(stream);
+  } else {
+    // Log error
+    console.log(err + 'error code: ' + err.errorCode + 'http code: ' err.httpCode);
+  }
 });
 ```
 
@@ -211,6 +216,9 @@ var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, pr
 
 ## History
 
+- 1.0.4
+	- Add server error handle
+	- Fix merge bugs
 - 1.0.2
 	- Update client create function
 	- Update optional params
