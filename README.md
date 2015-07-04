@@ -226,6 +226,8 @@ var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, pr
 
 ## History
 
+- 1.0.5
+    - Fix dynamic RTMP publish URL nonce generate bug
 - 1.0.4
 	- Add server error handle
 	- Fix merge bugs
