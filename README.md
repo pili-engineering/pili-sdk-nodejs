@@ -226,6 +226,8 @@ var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, pr
 
 ## History
 
+- 1.0.7
+    - Fix import bug
 - 1.0.6
     - Fix GET request query method
     - Add more defensive code to improve robustness
