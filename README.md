@@ -197,9 +197,9 @@ var publishUrl = stream.rtmpPublishUrl();
 #### Generate RTMP live play URL map
 
 ```javascript
-var map = stream.rtmpLiveUrlMap();
-Object.keys(map).forEach(function(key) {
-    var val = map[key];
+var urls = stream2.rtmpLiveUrls();
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
     console.log(key + ': ' + val);
 });
 ```
