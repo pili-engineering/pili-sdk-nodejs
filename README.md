@@ -79,7 +79,7 @@ client.createStream(options, function(err, stream) {
     //    "publishKey": "PUBLISH_KEY",
     //    "publishSecurity": "dynamic", // or static
     //    "disabled": false,
-    //    "profiles": null, // or ["480p", 720p] ...
+    //    "profiles": null, // or ["480p", "720p"] ...
     //    "hosts": {
     //        "publish": {
     //            "rtmp": "RTMP_PUBLISH_HOST"
