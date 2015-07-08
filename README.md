@@ -29,6 +29,7 @@
 		- [Generate RTMP live play URL](#Generate-RTMP-live-play-URL)
 		- [Generate HLS live play URL](#Generate-HLS-live-play-URL)
 		- [Generate HLS playback URL](#Generate-HLS-playback-URL)
+		- [To JSON String](#To-JSON-String)
 - [History](#History)
 
 ## Installaion
@@ -131,6 +132,7 @@ client.listStreams(options, function(err, marker, streams) {
 var options = {
   publishKey     : 'publishKey',  // optional
   publishSecrity : 'dynamic',     // optional
+  disabled       : false          // optional
 };
 
 stream.update(options, function(err, stream) {
@@ -222,6 +224,13 @@ Object.keys(urls).forEach(function(key) {
     var val = urls[key];
     console.log(key + ': ' + val);
 });
+```
+
+#### To JSON String
+```javascript
+var prettyPrint = true;
+var jsonString = stream.toJSONString(prettyPrint);
+console.log(jsonString);
 ```
 
 ## History
