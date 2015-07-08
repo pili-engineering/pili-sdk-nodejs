@@ -194,7 +194,7 @@ stream.status(function(err, data) {
 var publishUrl = stream.rtmpPublishUrl();
 ```
 
-#### Generate RTMP live play URL map
+#### Generate RTMP live play URLs
 
 ```javascript
 var urls = stream2.rtmpLiveUrls();
@@ -204,16 +204,24 @@ Object.keys(urls).forEach(function(key) {
 });
 ```
 
-#### Generate HLS live play URL
+#### Generate HLS live play URLs
 
 ```javascript
-var hlsLiveUrl = stream.hlsLiveUrl();
+var urls = stream.hlsLiveUrls();
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
+    console.log(key + ': ' + val);
+});
 ```
 
-#### Generate HLS playback URL
+#### Generate HLS playback URLs
 
 ```javascript
-var hlsPlaybackUrl = stream.hlsPlaybackUrl(startTime, endTime);
+var urls = stream.hlsPlaybackUrls(startTime, endTime);
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
+    console.log(key + ': ' + val);
+});
 ```
 
 ## History
