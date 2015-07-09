@@ -199,7 +199,7 @@ var publishUrl = stream.rtmpPublishUrl();
 #### Generate RTMP live play URLs
 
 ```javascript
-var urls = stream2.rtmpLiveUrls();
+var urls = stream.rtmpLiveUrls();
 Object.keys(urls).forEach(function(key) {
     var val = urls[key];
     console.log(key + ': ' + val);
@@ -228,8 +228,7 @@ Object.keys(urls).forEach(function(key) {
 
 #### To JSON String
 ```javascript
-var prettyPrint = true;
-var jsonString = stream.toJSONString(prettyPrint);
+var jsonString = stream.toJSONString();
 console.log(jsonString);
 ```
 
