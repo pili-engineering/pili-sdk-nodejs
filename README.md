@@ -19,22 +19,29 @@
 		- [Create a Pili client](#Create-a-Pili-client)
 		- [Create a stream](#Create-a-stream)
 		- [Get a stream](#Get-a-stream)
-		- [Update a stream](#Update-a-stream)
 		- [List streams](#List-streams)
+	- [Stream](#Stream)
+    	- [Update a stream](#Update-a-stream)
 		- [Delete a stream](#Delete-a-stream)
 		- [Get stream segments](#Get-stream-segments)
 		- [Get stream status](#Get-stream-status)
-	- [Stream](#Stream)
 		- [Generate RTMP publish URL](#Generate-RTMP-publish-URL)
 		- [Generate RTMP live play URL](#Generate-RTMP-live-play-URL)
 		- [Generate HLS live play URL](#Generate-HLS-live-play-URL)
 		- [Generate HLS playback URL](#Generate-HLS-playback-URL)
+		- [To JSON String](#To-JSON-String)
 - [History](#History)
 
 ## Installaion
 
 ```
+// install latest version
 npm install pili --save
+```
+
+```
+// install old version
+npm install pili@1.07
 ```
 
 ## Usage
@@ -48,10 +55,6 @@ var ACCESS_KEY = 'QiniuAccessKey';
 var SECRETE_KEY = 'QiniuSecretKey';
 
 var HUB = 'hubName';
-
-var RTMP_PUBLISH_HOST = "xxx.pub.z1.pili.qiniup.com";
-var RTMP_PLAY_HOST    = "xxx.live1.z1.pili.qiniucdn.com";
-var HLS_PLAY_HOST     = "xxx.hls1.z1.pili.qiniucdn.com";
 ```
 
 ### Client
@@ -59,29 +62,40 @@ var HLS_PLAY_HOST     = "xxx.hls1.z1.pili.qiniucdn.com";
 #### Create a Pili client
 
 ```javascript
-var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY);
+var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY, HUB);
 ```
 
 #### Create a stream
 
 ```javascript
-var hub = HUB;                   // required
 var options = {
-  title          : 'title',        // optional
+  title          : 'title',      // optional
   publishKey     : 'publishKey', // optional
   publishSecrity : 'dynamic'     // optional
 };
 
-client.createStream(hub, options, function(err, stream) {
+client.createStream(options, function(err, stream) {
   if (!err) {
     // Log stream
     // {
-    //    id: 'STREAM_ID',
-    //    title: 'STREAM_TITLE'.
-    //    hub: 'HUB_NAME',
-    //    publishKey: 'PUBLISH_KEY',
-    //    publishSecurity: 'PUBLISH_SECURITY',
-    //    disabled: false
+    //    "id": "STREAM_ID",
+    //    "createdAt": "CREATED_AT",
+    //    "updatedAt": "UPDATED_AT",
+    //    "title": "TITLE",
+    //    "hub": "HUB_NAME",
+    //    "publishKey": "PUBLISH_KEY",
+    //    "publishSecurity": "dynamic", // or static
+    //    "disabled": false,
+    //    "profiles": null, // or ["480p", "720p"] ...
+    //    "hosts": {
+    //        "publish": {
+    //            "rtmp": "RTMP_PUBLISH_HOST"
+    //        },
+    //        "play": {
+    //            "hls": "HLS_PLAY_HOST",
+    //            "rtmp": "RTMP_PLAY_HOST"
+    //        }
+    //    }
     // }
     console.log(stream);
   } else {
@@ -100,31 +114,15 @@ client.getStream(streamId, function(err, stream) {
 });
 ```
 
-#### Update a stream
-
-```javascript
-var streamId = 'streamId';        // required
-var options = {
-  publishKey     : 'publishKey',  // optional
-  publishSecrity : 'dynamic',     // optional
-  disabled       : true           // optional
-};
-
-client.updateStream(streamId, options, function(err, stream) {
-  // handle request
-});
-```
-
 #### List streams
 
 ```javascript
-var hub = HUB;      // required
 var options = {
  marker : 'marker', // optional
  limit  : 1000      // optional
 };
 
-client.listStreams(hub, options, function(err, streams) {
+client.listStreams(options, function(err, marker, streams) {
   streams.forEach(function(stream) {
     // do something with stream object
     console.log(stream);
@@ -132,10 +130,26 @@ client.listStreams(hub, options, function(err, streams) {
 });
 ```
 
+### Stream
+
+#### Update a stream
+
+```javascript
+var options = {
+  publishKey     : 'publishKey',  // optional
+  publishSecrity : 'dynamic',     // optional
+  disabled       : false          // optional
+};
+
+stream.update(options, function(err, stream) {
+  // handle request
+});
+```
+
 #### Delete a stream
 
 ```javascript
-client.deleteStream(streamId, function(err, data) {
+stream.delete(function(err) {
   // handle request
 });
 ```
@@ -143,29 +157,26 @@ client.deleteStream(streamId, function(err, data) {
 #### Get stream segments
 
 ```javascript
-var streamId = 'streamId';  // required
 var options = {
   startTime : startTime,    // optional, in second, unix timestamp
   endTime   : endTime       // optional, in second, unix timestamp
 }；
 
-client.getStreamSegments(streamId, options, function(err, data) {
+stream.segments(streamId, options, function(err, segmentssegments) {
   if (!err) {
     // Log stream segments
-    // {
-    //     "segments": [
-    //         {
-    //             "start": <StartSecond>,
-    //             "end": <EndSecond>
-    //         },
-    //         {
-    //             "start": <StartSecond>,
-    //             "end": <EndSecond>
-    //         },
-    //         ...
-    //     ]
-    // }
-    console.log(data);
+    // [
+    //     {
+    //         "start": <StartSecond>,
+    //         "end": <EndSecond>
+    //     },
+    //     {
+    //         "start": <StartSecond>,
+    //         "end": <EndSecond>
+    //     },
+    //     ...
+    // ]
+    console.log(segments);
   }
 });
 ```
@@ -173,8 +184,7 @@ client.getStreamSegments(streamId, options, function(err, data) {
 #### Get stream status
 
 ```javascript
-var streamId = 'streamId';  // required
-client.getStreamStatus(streamId, function(err, data) {
+stream.status(function(err, data) {
   if (!err) {
     // Log stream status
     // {
@@ -186,46 +196,54 @@ client.getStreamStatus(streamId, function(err, data) {
 });
 ```
 
-### Stream
-
 #### Generate RTMP publish URL
 
 ```javascript
-var publishUrl = stream.rtmpPublishUrl(RTMP_PUBLISH_HOST);
+var publishUrl = stream.rtmpPublishUrl();
 ```
 
-#### Generate RTMP live play URL
+#### Generate RTMP live play URLs
 
 ```javascript
-var options = {
-  profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
-};
-
-var rtmpLiveUrl = stream.rtmpLiveUrl(RTMP_PLAY_HOST, options);
+var urls = stream.rtmpLiveUrls();
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
+    console.log(key + ': ' + val);
+});
 ```
 
-#### Generate HLS live play URL
+#### Generate HLS live play URLs
 
 ```javascript
-var options = {
- profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
-};
-
-var hlsLiveUrl = stream.hlsLiveUrl(HLS_PLAY_HOST, options);
+var urls = stream.hlsLiveUrls();
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
+    console.log(key + ': ' + val);
+});
 ```
 
-#### Generate HLS playback URL
+#### Generate HLS playback URLs
 
 ```javascript
-var options = {
- profile: '480p' // optional, such as '720p', '480p', '360p', '240p'. All profiles should be defined first.
-};
+var urls = stream.hlsPlaybackUrls(startTime, endTime);
+Object.keys(urls).forEach(function(key) {
+    var val = urls[key];
+    console.log(key + ': ' + val);
+});
+```
 
-var hlsPlaybackUrl = stream.hlsPlaybackUrl(HLS_PLAY_HOST, startTime, endTime, profile);
+#### To JSON String
+```javascript
+var jsonString = stream.toJSONString();
+console.log(jsonString);
 ```
 
 ## History
 
+- 1.2.0
+    - Update Stream object
+    - Add new Stream functions
+    - Update Client functions
 - 1.0.7
     - Fix import bug
 - 1.0.6
