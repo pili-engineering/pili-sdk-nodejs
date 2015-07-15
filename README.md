@@ -35,7 +35,13 @@
 ## Installaion
 
 ```
+// install latest version
 npm install pili --save
+```
+
+```
+// install old version
+npm install pili@1.07
 ```
 
 ## Usage
@@ -234,7 +240,7 @@ console.log(jsonString);
 
 ## History
 
-- 2.0.0
+- 1.2.0
     - Update Stream object
     - Add new Stream functions
     - Update Client functions
