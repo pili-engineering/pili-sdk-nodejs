@@ -210,6 +210,9 @@ Object.keys(urls).forEach(function(key) {
     var val = urls[key];
     console.log(key + ': ' + val);
 });
+
+// Get original RTMP live url
+var originalUrl = urls['ORIGIN'];
 ```
 
 #### Generate HLS live play URLs
@@ -220,6 +223,9 @@ Object.keys(urls).forEach(function(key) {
     var val = urls[key];
     console.log(key + ': ' + val);
 });
+
+// Get original HLS live url
+var originalUrl = urls['ORIGIN'];
 ```
 
 #### Generate HLS playback URLs
@@ -230,6 +236,9 @@ Object.keys(urls).forEach(function(key) {
     var val = urls[key];
     console.log(key + ': ' + val);
 });
+
+// Get original HLS playback url
+var originalUrl = urls['ORIGIN'];
 ```
 
 #### To JSON String
