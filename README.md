@@ -162,7 +162,7 @@ var options = {
   endTime   : endTime       // optional, in second, unix timestamp
 }；
 
-stream.segments(streamId, options, function(err, segmentssegments) {
+stream.segments(options, function(err, segmentssegments) {
   if (!err) {
     // Log stream segments
     // [
