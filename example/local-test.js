@@ -6,11 +6,7 @@ var Pili = require('../index.js');
 var ACCESS_KEY = '9WYbJLbbeiOfO3ajB2xx02cshU5MJZ61SL72AN9m';
 var SECRETE_KEY = 'FYwiyvlG7d5ge3XBO5LkPyM80wU9NNFThNJD8u-q';
 
-var HUB = 'dayzhtest';
-
-var RTMP_PUBLISH_HOST = "vlv5lt.pub.z1.pili.qiniup.com";
-var RTMP_PLAY_HOST    = "vlv5lt.live1.z1.pili.qiniucdn.com";
-var HLS_PLAY_HOST     = "vlv5lt.hls1.z1.pili.qiniucdn.com";
+var HUB = 'dayzh_staging';
 
 // ========================== Client ============================
 
@@ -66,6 +62,14 @@ client.createStream(options, function(err, stream) {
     console.log('List Streams');
     console.log('Marker: ' + marker);
     console.log(streams);
+
+    streams.forEach(function(stream, index, array){
+      console.log('Save ' + stream.id + ' begin');
+      stream.saveAs(stream.title, 'mp4', 1438703678, 1438703765, null, function(err, responseData) {
+        console.log(responseData);
+        console.log('Save ' + stream.id + ' end');
+      });
+    });
   });
 
   console.log('Create Stream Success.');
@@ -95,10 +99,6 @@ client.createStream(options, function(err, stream) {
 
       console.log('Get Stream Status Success.');
       console.log(status);
-
-      stream1.saveAs('save-test', 'mp4', null, function(err, responseData) {
-        console.log(responseData);
-      });
 
       var options = {
         publishKey: '123'
