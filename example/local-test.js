@@ -96,6 +96,10 @@ client.createStream(options, function(err, stream) {
       console.log('Get Stream Status Success.');
       console.log(status);
 
+      stream1.saveAs('save-test', 'mp4', null, function(err, responseData) {
+        console.log(responseData);
+      });
+
       var options = {
         publishKey: '123'
       };
