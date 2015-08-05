@@ -260,7 +260,7 @@ var options = {
 	notifyUrl : 'http://your_notify_url',
 };
 
-stream.saveAs(fileTitle, format, start, end, options, function(err, responseData) {
+stream.saveAs(fileName, format, start, end, options, function(err, responseData) {
 	// Log responseData
 	// {
 	//     "url": "<m3u8Url>",

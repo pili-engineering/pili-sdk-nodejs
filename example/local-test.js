@@ -65,7 +65,7 @@ client.createStream(options, function(err, stream) {
 
     streams.forEach(function(stream, index, array){
       console.log('Save ' + stream.id + ' begin');
-      stream.saveAs(stream.title, 'mp4', 1429862565, 1437706807, null, function(err, responseData) {
+      stream.saveAs(stream.title, 'mp4', 1438599903, 1438665998, null, function(err, responseData) {
         console.log(responseData);
         console.log('Save ' + stream.id + ' end');
       });
