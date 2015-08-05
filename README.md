@@ -252,7 +252,7 @@ console.log(jsonString);
 #### Save Stream as
 
 ```javascript
-var fileTitle;
+var fileName;
 var format;
 var start, end;
 
