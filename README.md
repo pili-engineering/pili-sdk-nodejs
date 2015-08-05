@@ -261,6 +261,12 @@ var options = {
 };
 
 stream.saveAs(fileTitle, format, start, end, options, function(err, responseData) {
+	// Log responseData
+	// {
+	//     "url": "<m3u8Url>",
+	//     "targetUrl": "<TargetFileUrl>",
+	//     "persistentId": <PersistentId>
+	// }
 	console.log(responseData);
 });
 ```

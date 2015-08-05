@@ -6,7 +6,7 @@ var Pili = require('../index.js');
 var ACCESS_KEY = '9WYbJLbbeiOfO3ajB2xx02cshU5MJZ61SL72AN9m';
 var SECRETE_KEY = 'FYwiyvlG7d5ge3XBO5LkPyM80wU9NNFThNJD8u-q';
 
-var HUB = 'dayzh_staging';
+var HUB = 'dayzhtest';
 
 // ========================== Client ============================
 
@@ -65,7 +65,7 @@ client.createStream(options, function(err, stream) {
 
     streams.forEach(function(stream, index, array){
       console.log('Save ' + stream.id + ' begin');
-      stream.saveAs(stream.title, 'mp4', 1438703678, 1438703765, null, function(err, responseData) {
+      stream.saveAs(stream.title, 'mp4', 1429862565, 1437706807, null, function(err, responseData) {
         console.log(responseData);
         console.log('Save ' + stream.id + ' end');
       });
