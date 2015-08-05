@@ -1,6 +1,6 @@
 {
   "name": "pili",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Pili server-side library for NodeJS",
   "main": "index.js",
   "repository": {
