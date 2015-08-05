@@ -21,7 +21,7 @@
 		- [Get a stream](#Get-a-stream)
 		- [List streams](#List-streams)
 	- [Stream](#Stream)
-    	- [Update a stream](#Update-a-stream)
+    - [Update a stream](#Update-a-stream)
 		- [Delete a stream](#Delete-a-stream)
 		- [Get stream segments](#Get-stream-segments)
 		- [Get stream status](#Get-stream-status)
@@ -30,6 +30,7 @@
 		- [Generate HLS live play URL](#Generate-HLS-live-play-URL)
 		- [Generate HLS playback URL](#Generate-HLS-playback-URL)
 		- [To JSON String](#To-JSON-String)
+		- [Save Stream as](#Save-Stream-as)
 - [History](#History)
 
 ## Installaion
@@ -242,24 +243,49 @@ var originalUrl = urls['ORIGIN'];
 ```
 
 #### To JSON String
+
 ```javascript
 var jsonString = stream.toJSONString();
 console.log(jsonString);
 ```
 
+#### Save Stream as
+
+```javascript
+var fileTitle;
+var format;
+var start, end;
+
+var options = {
+	notifyUrl : 'http://your_notify_url',
+};
+
+stream.saveAs(fileName, format, start, end, options, function(err, responseData) {
+	// Log responseData
+	// {
+	//     "url": "<m3u8Url>",
+	//     "targetUrl": "<TargetFileUrl>",
+	//     "persistentId": <PersistentId>
+	// }
+	console.log(responseData);
+});
+```
+
 ## History
 
+- 1.2.1
+	- Add stream saveas function
 - 1.2.0
-    - Update Stream object
-    - Add new Stream functions
-    - Update Client functions
+  - Update Stream object
+  - Add new Stream functions
+  - Update Client functions
 - 1.0.7
-    - Fix import bug
+  - Fix import bug
 - 1.0.6
-    - Fix GET request query method
-    - Add more defensive code to improve robustness
+  - Fix GET request query method
+  - Add more defensive code to improve robustness
 - 1.0.5
-    - Fix dynamic RTMP publish URL nonce generate bug
+  - Fix dynamic RTMP publish URL nonce generate bug
 - 1.0.4
 	- Add server error handle
 	- Fix merge bugs
