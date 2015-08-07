@@ -267,6 +267,10 @@ stream.saveAs(fileName, format, start, end, options, function(err, responseData)
 	//     "targetUrl": "<TargetFileUrl>",
 	//     "persistentId": <PersistentId>
 	// }
+	//
+	// You can get saving state via Qiniu fop service using persistentId.
+	// API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
+	// Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
 	console.log(responseData);
 });
 ```
