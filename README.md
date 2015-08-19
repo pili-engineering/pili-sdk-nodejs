@@ -99,9 +99,9 @@ client.createStream(options, function(err, stream) {
     //            "rtmp": "HLS_LIVE_HOST",
     //            "http": "RTMP_LIVE_HOST"
     //        },
-		//				"playback": {
-		//						"http": "PLAYBACK_HOST"
-		//				}
+	//				"playback": {
+	//						"http": "PLAYBACK_HOST"
+	//				}
     //    }
     // }
     console.log(stream);
@@ -215,12 +215,12 @@ stream.status(function(err, data) {
     // {
     //     "addr": "106.187.43.211:51393",
     //     "status": "disconnected",
-		//		 "bytesPerSecond": 1024,
-		//		 "framesPerSecond": {
-		//		 		"audio": 1111,
-		//				"video": 1111,
-		//				"data": 1111
-		//		 }
+	//		 "bytesPerSecond": 1024,
+	//		 "framesPerSecond": {
+	//		 		"audio": 1111,
+	//				"video": 1111,
+	//				"data": 1111
+	//		 }
     // }
     console.log(data);
   }
