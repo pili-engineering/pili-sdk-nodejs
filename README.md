@@ -12,26 +12,29 @@
 
 ## Content
 
-- [Installation](#Installation)
-- [Usage](#Usage)
-	- [Configuration](#Configuration)
-	- [Client](#Client)
-		- [Create a Pili client](#Create-a-Pili-client)
-		- [Create a stream](#Create-a-stream)
-		- [Get a stream](#Get-a-stream)
-		- [List streams](#List-streams)
-	- [Stream](#Stream)
-    - [Update a stream](#Update-a-stream)
-		- [Delete a stream](#Delete-a-stream)
-		- [Get stream segments](#Get-stream-segments)
-		- [Get stream status](#Get-stream-status)
-		- [Generate RTMP publish URL](#Generate-RTMP-publish-URL)
-		- [Generate RTMP live play URL](#Generate-RTMP-live-play-URL)
-		- [Generate HLS live play URL](#Generate-HLS-live-play-URL)
-		- [Generate HLS playback URL](#Generate-HLS-playback-URL)
-		- [To JSON String](#To-JSON-String)
-		- [Save Stream as](#Save-Stream-as)
-- [History](#History)
+- [Installation](#installation)
+- [Usage](#usage)
+	- [Configuration](#configuration)
+	- [Client](#client)
+		- [Create a Pili client](#create-a-pili-client)
+		- [Create a stream](#create-a-stream)
+		- [Get a stream](#get-a-stream)
+		- [List streams](#list-streams)
+	- [Stream](#stream)
+    - [Update a stream](#update-a-stream)
+		- [Enable a stream](#enable-a-stream)
+		- [Disable a stream](#disable-a-stream)
+		- [Delete a stream](#delete-a-stream)
+		- [Get stream segments](#get-stream-segments)
+		- [Get stream status](#get-stream-status)
+		- [Generate RTMP publish URL](#generate-rtmp-publish-url)
+		- [Generate RTMP live play URL](#generate-rtmp-live-play-url)
+		- [Generate HLS live play URL](#generate-hls-live-play-url)
+		- [Generate HLS playback URL](#generate-hls-playback-url)
+		- [To JSON String](#to-json-string)
+		- [Save Stream as](#save-stream-as)
+		- [Snapshot stream](#snapshot-stream)
+- [History](#history)
 
 ## Installaion
 
@@ -92,10 +95,13 @@ client.createStream(options, function(err, stream) {
     //        "publish": {
     //            "rtmp": "RTMP_PUBLISH_HOST"
     //        },
-    //        "play": {
-    //            "hls": "HLS_PLAY_HOST",
-    //            "rtmp": "RTMP_PLAY_HOST"
-    //        }
+    //        "live": {
+    //            "rtmp": "HLS_LIVE_HOST",
+    //            "http": "RTMP_LIVE_HOST"
+    //        },
+		//				"playback": {
+		//						"http": "PLAYBACK_HOST"
+		//				}
     //    }
     // }
     console.log(stream);
@@ -120,7 +126,8 @@ client.getStream(streamId, function(err, stream) {
 ```javascript
 var options = {
  marker : 'marker', // optional
- limit  : 1000      // optional
+ limit  : 1000,     // optional
+ title	: 'title'		// optional
 };
 
 client.listStreams(options, function(err, marker, streams) {
@@ -147,6 +154,22 @@ stream.update(options, function(err, stream) {
 });
 ```
 
+#### Enable a stream
+
+```javascript
+stream.enable(function(err, stream) {
+	// handle request
+});
+```
+
+#### Disable a stream
+
+```javascript
+stream.disable(function(err, stream) {
+	// handle request
+});
+```
+
 #### Delete a stream
 
 ```javascript
@@ -160,8 +183,9 @@ stream.delete(function(err) {
 ```javascript
 var options = {
   startTime : startTime,    // optional, in second, unix timestamp
-  endTime   : endTime       // optional, in second, unix timestamp
-}；
+  endTime   : endTime,      // optional, in second, unix timestamp
+	limit		  : limit					// optional
+};
 
 stream.segments(options, function(err, segmentssegments) {
   if (!err) {
@@ -190,7 +214,13 @@ stream.status(function(err, data) {
     // Log stream status
     // {
     //     "addr": "106.187.43.211:51393",
-    //     "status": "disconnected"
+    //     "status": "disconnected",
+		//		 "bytesPerSecond": 1024,
+		//		 "framesPerSecond": {
+		//		 		"audio": 1111,
+		//				"video": 1111,
+		//				"data": 1111
+		//		 }
     // }
     console.log(data);
   }
@@ -275,8 +305,42 @@ stream.saveAs(fileName, format, start, end, options, function(err, responseData)
 });
 ```
 
+#### Snapshot stream
+
+```javascript
+var imageName;
+var format;
+
+var options = {
+	time 			: snapAtUnixTimestamp,	// default as now, in second
+	notifyUrl : 'http://your_notify_url'
+};
+
+stream.snapshot(imageName, format, options, function(err, responseData) {
+	// Log responseData
+	// {
+	// 	"targetUrl": "<TargetUrl>",
+	// 	"persistentId": "<PersistentId>"
+	// }
+	//
+	// You can get saving state via Qiniu fop service using persistentId.
+	// API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
+	// Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+	console.log(responseData);
+});
+```
+
 ## History
 
+- 1.4.0
+	- Update stream struct
+	- Add stream snapshot function
+	- Add stream enable function
+	- Add stream disable function
+	- Update stream status struct
+	- Update stream toJSONString function
+	- Update client listStreams params, add title
+	- Update stream segments params, add limit
 - 1.2.1
 	- Add stream saveas function
 - 1.2.0
