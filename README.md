@@ -131,7 +131,7 @@ client.createStream(options, function(err, stream) {
 #### Get a Stream
 
 ```javascript
-var streamId = 'id":"z1.coding.35d7zfabe3bv5723280200c5';  // required
+var streamId = 'z1.coding.35d7zfabe3bv5723280200c5';  // required
 client.getStream(streamId, function(err, stream) {
     if (!err) {
         console.log(stream);
