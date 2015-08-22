@@ -1,7 +1,7 @@
 {
   "name": "pili",
-  "version": "1.2.1",
-  "description": "Pili server-side library for NodeJS",
+  "version": "1.4.0",
+  "description": "Pili Streaming Cloud server-side library for NodeJS",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -11,6 +11,9 @@
     "web-service",
     "rtmp",
     "hls",
+    "hdl",
+    "hds",
+    "dash",
     "pili",
     "streaming",
     "qiniu",
