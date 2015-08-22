@@ -2,13 +2,25 @@
 
 ## Features
 
-- [x] Stream operations (Create, Delete, Update, Get)
-- [x] Get Streams list
-- [x] Get Stream status
-- [x] Get Stream segments
-- [x] Generate RTMP publish URL
-- [x] Generate RTMP / HLS live play URL
-- [x] Generate HLS playback URL
+- Stream Create, Get, List
+    - [x] client.createStream()
+    - [x] client.getStream()
+    - [x] client.listStreams()
+- Stream operations else
+    - [x] stream.toJSONString()
+    - [x] stream.update()
+    - [x] stream.disable()
+    - [x] stream.enable()
+    - [x] stream.status()
+    - [x] stream.rtmpPublishUrl()
+    - [x] stream.rtmpLiveUrls()
+    - [x] stream.hlsLiveUrls()
+    - [x] stream.httpFlvLiveUrls()
+    - [x] stream.segments()
+    - [x] stream.hlsPlaybackUrls()
+    - [x] stream.snapshot()
+    - [x] stream.saveAs()
+    - [x] stream.delete()
 
 ## Content
 
