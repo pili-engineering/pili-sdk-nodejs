@@ -29,25 +29,25 @@
 	- [Configuration](#configuration)
 	- [Client](#client)
 		- [Create a Pili client](#create-a-pili-client)
-		- [Create a stream](#create-a-stream)
-		- [Get a stream](#get-a-stream)
-		- [List streams](#list-streams)
+		- [Create a Stream](#create-a-stream)
+		- [Get a Stream](#get-a-stream)
+		- [List Stream](#list-streams)
 	- [Stream](#stream)
     - [Update a stream](#update-a-stream)
 		- [To JSON String](#to-json-string)
 		- [Update a Stream](#update-a-stream)
-		- [Disable a stream](#disable-a-stream)
-		- [Enable a stream](#enable-a-stream)
-		- [Get stream status](#get-stream-status)
+		- [Disable a Stream](#disable-a-stream)
+		- [Enable a Stream](#enable-a-stream)
+		- [Get Stream status](#get-stream-status)
 		- [Generate RTMP publish URL](#generate-rtmp-publish-url)
 		- [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
 		- [Generate HLS live play URLs](#generate-hls-live-play-urls)
 		- [Generate Http-Flv live play URLs](#generate-http-flv-live-play-urls)
 		- [Get stream segments](#get-stream-segments)
 		- [Generate HLS playback URLs](#generate-hls-playback-url)
-		- [Snapshot stream](#snapshot-stream)
-		- [Save Stream as](#save-stream-as)
-		- [Delete a stream](#delete-a-stream)
+		- [Snapshot Stream](#snapshot-stream)
+		- [Save Stream as a file](#save-stream-as)
+		- [Delete a Stream](#delete-a-stream)
 - [History](#history)
 
 ## Installaion
@@ -69,7 +69,7 @@ var SECRETE_KEY = 'QiniuSecretKey';
 
 var HUB = 'PiliHubName';
 
-// Change API host if necessary
+// Change API host as necessary
 // Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 ```
 
@@ -108,7 +108,7 @@ client.createStream(options, function(err, stream) {
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -117,7 +117,7 @@ client.createStream(options, function(err, stream) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -131,7 +131,7 @@ client.createStream(options, function(err, stream) {
 #### Get a Stream
 
 ```javascript
-var streamId = 'id":"z1.coding.35d7zfabe3bv5723280200c5';  // required
+var streamId = 'z1.coding.35d7zfabe3bv5723280200c5';  // required
 client.getStream(streamId, function(err, stream) {
     if (!err) {
         console.log(stream);
@@ -150,7 +150,7 @@ client.getStream(streamId, function(err, stream) {
         //     {
         //         "publish":
         //         {
-        //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+        //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
         //         },
         //         "live":
         //         {
@@ -159,7 +159,7 @@ client.getStream(streamId, function(err, stream) {
         //         },
         //         "playback":
         //         {
-        //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+        //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
         //         }
         //     }
         // }
@@ -167,7 +167,7 @@ client.getStream(streamId, function(err, stream) {
 });
 ```
 
-#### List streams
+#### List Stream
 
 ```javascript
 var options = {
@@ -194,7 +194,7 @@ client.listStreams(options, function(err, marker, streams) {
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -203,7 +203,7 @@ client.listStreams(options, function(err, marker, streams) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -218,7 +218,7 @@ client.listStreams(options, function(err, marker, streams) {
 ```javascript
 var result = stream.toJSONString();
 console.log(result);
-// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.pub.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.hls.z1.pili.qiniucdn.com"}}}
+// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.publish.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.playback1.z1.pili.qiniucdn.com"}}}
 ```
 
 #### Update a Stream
@@ -247,7 +247,7 @@ stream.update(options, function(err, stream) {
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -256,7 +256,7 @@ stream.update(options, function(err, stream) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -307,7 +307,7 @@ stream.status(function(err, status) {
 ```javascript
 var publishUrl = stream.rtmpPublishUrl();
 console.log(publishUrl);
-// rtmp://scv02k.pub.z1.pili.qiniup.com/coding/55d7f934e3ba5723280000cb?key=new_secret_words
+// rtmp://scv02k.publish.z1.pili.qiniup.com/coding/55d7f934e3ba5723280000cb?key=new_secret_words
 ```
 
 #### Generate RTMP live play URLs
@@ -340,13 +340,13 @@ console.log(urls);
 // }
 ```
 
-#### Get stream segments
+#### Get Stream segments
 
 ```javascript
 var options = {
    startTime : null,	// optional, in second, unix timestamp
    endTime   : null,	// optional, in second, unix timestamp
-   limit	  : null	// optional
+   limit     : null	// optional
 };
 
 stream.segments(options, function(err, segments) {
@@ -371,25 +371,25 @@ stream.segments(options, function(err, segments) {
 #### Generate HLS playback URLs
 
 ```javascript
-var start = 1440196065;
-var end = 1440196105;
+var start = 1440196065; // required, in second, unix timestamp
+var end   = 1440196105; // required, in second, unix timestamp
 
 var urls = stream.hlsPlaybackUrls(start, end);
 console.log(urls);
 // {
-//     ORIGIN: 'http://scv02k.hls.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
+//     ORIGIN: 'http://scv02k.playback1.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
 // }
 ```
 
 #### Snapshot Stream
 
 ```javascript
-var name = 'imageName';	// required
+var name   = 'imageName';	// required
 var format = 'jpg';		// required
 
 var options = {
 	time		: 1440196100,	// optional, default as now, in second, unix timestamp
-	notifyUrl	: null			// optional
+	notifyUrl	: null		// optional
 };
 
 stream.snapshot(name, format, options, function(err, responseData) {
@@ -402,17 +402,17 @@ stream.snapshot(name, format, options, function(err, responseData) {
 });
 ```
 
-You can get saving state via Qiniu fop service using persistentId.
+You can get processing state via Qiniu fop service using persistentId.
 API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
 Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
 
 #### Save Stream as a file
 
 ```javascript
-var name = 'videoName';	// required
+var name   = 'videoName';	// required
 var format = 'mp4';		// required
-var start = 1440196065;	// required, in second, unix timestamp
-var end = 1440196105;	// required, in second, unix timestamp
+var start  = 1440196065;	// required, in second, unix timestamp
+var end    = 1440196105;	// required, in second, unix timestamp
 
 var options = {
 	notifyUrl : null	// optional
@@ -429,11 +429,11 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 });
 ```
 
-You can get saving state via Qiniu fop service using persistentId.
+You can get processing state via Qiniu fop service using persistentId.
 API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
 Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
 
-#### Delete a stream
+#### Delete a Stream
 
 ```javascript
 client.deleteStream(streamId, function(err, data) {
@@ -446,14 +446,14 @@ client.deleteStream(streamId, function(err, data) {
 
 - 1.4.0
 	- Update stream struct
-	- Add stream snapshot function
-	- Add stream enable function
-	- Add stream disable function
-	- Add stream generate Http-Flv live URLs functions
-	- Update stream status struct
-	- Update stream toJSONString function
-	- Update client listStreams params, add title
-	- Update stream segments params, add limit
+	- Add stream.snapshot()
+	- Add stream.enable()
+	- Add stream.disable()
+	- Add stream.httpFlvLiveUrls()
+	- Update stream.status()
+	- Update stream.toJSONString()
+	- Update stream.segments()
+	- Update client.listStreams()
 - 1.2.1
 	- Add stream saveas function
 - 1.2.0
