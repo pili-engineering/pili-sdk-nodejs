@@ -52,7 +52,7 @@
 
 ## Installaion
 
-```
+```shell
 // install latest version
 npm install pili --save
 ```
