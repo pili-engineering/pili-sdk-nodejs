@@ -1,11 +1,11 @@
-# Pili server-side library for NodeJS
+# Pili Streaming Cloud server-side library for NodeJS
 
 ## Features
 
 - Stream Create, Get, List
-    - [x] client.createStream()
-    - [x] client.getStream()
-    - [x] client.listStreams()
+    - [x] hub.createStream()
+    - [x] hub.getStream()
+    - [x] hub.listStreams()
 - Stream operations else
     - [x] stream.toJSONString()
     - [x] stream.update()
@@ -27,8 +27,8 @@
 - [Installation](#installation)
 - [Usage](#usage)
 	- [Configuration](#configuration)
-	- [Client](#client)
-		- [Create a Pili client](#create-a-pili-client)
+	- [Hub](#hub)
+		- [Create a Pili hub](#create-a-pili-hub)
 		- [Create a Stream](#create-a-stream)
 		- [Get a Stream](#get-a-stream)
 		- [List Stream](#list-streams)
@@ -70,15 +70,20 @@ var SECRETE_KEY = 'QiniuSecretKey';
 var HUB = 'PiliHubName';
 
 // Change API host as necessary
-// Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
+//
+// pili.qiniuapi.com as deafult
+// pili-lte.qiniuapi.com is the latest RC version
+//
+Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 ```
 
-### Client
+### Hub
 
-#### Instantiate a Pili client
+#### Instantiate a Pili hub
 
 ```javascript
-var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY, HUB);
+var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
+var hub = new Pili.Hub(credentials, HUB);
 ```
 
 #### Create a new Stream
@@ -90,7 +95,7 @@ var options = {
   publishSecrity : null     // optional
 };
 
-client.createStream(options, function(err, stream) {
+hub.createStream(options, function(err, stream) {
   if (!err) {
       console.log(stream);
     // Log stream
@@ -132,7 +137,7 @@ client.createStream(options, function(err, stream) {
 
 ```javascript
 var streamId = 'z1.coding.35d7zfabe3bv5723280200c5';  // required
-client.getStream(streamId, function(err, stream) {
+hub.getStream(streamId, function(err, stream) {
     if (!err) {
         console.log(stream);
         // Log stream
@@ -176,7 +181,7 @@ var options = {
     title  : null     // optional
 };
 
-client.listStreams(options, function(err, marker, streams) {
+hub.listStreams(options, function(err, marker, streams) {
   streams.forEach(function(stream) {
     console.log(stream);
     // Log stream
@@ -402,9 +407,9 @@ stream.snapshot(name, format, options, function(err, responseData) {
 });
 ```
 
-You can get processing state via Qiniu fop service using persistentId.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
+Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
 
 #### Save Stream as a file
 
@@ -429,14 +434,14 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 });
 ```
 
-You can get processing state via Qiniu fop service using persistentId.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
+Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
 
 #### Delete a Stream
 
 ```javascript
-client.deleteStream(streamId, function(err, data) {
+hub.deleteStream(streamId, function(err, data) {
     console.log(data);
     // null
 });
@@ -444,6 +449,9 @@ client.deleteStream(streamId, function(err, data) {
 
 ## History
 
+- 1.5.0
+	- Rename `Client` to `Hub`
+	- Add `Credentials`
 - 1.4.0
 	- Update stream struct
 	- Add stream.snapshot()
@@ -453,7 +461,7 @@ client.deleteStream(streamId, function(err, data) {
 	- Update stream.status()
 	- Update stream.toJSONString()
 	- Update stream.segments()
-	- Update client.listStreams()
+	- Update hub.listStreams()
 - 1.2.1
 	- Add stream saveas function
 - 1.2.0

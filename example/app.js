@@ -13,12 +13,13 @@ var HUB = 'PiliHubName';
 // Change API host if necessary
 Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 
-// ========================== Client ============================
+// ========================== Hub ============================
 
 /**
- * Instantiate a Pili client
+ * Instantiate a Pili hub
  */
-var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY, HUB);
+var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
+var hub = new Pili.Hub(credentials, HUB);
 
 /**
  * Create a new Stream
@@ -29,7 +30,7 @@ var options = {
   publishSecrity : null     // optional
 };
 
-client.createStream(options, function(err, stream) {
+hub.createStream(options, function(err, stream) {
   if (!err) {
       console.log(stream);
     // Log stream
@@ -70,7 +71,7 @@ client.createStream(options, function(err, stream) {
  * Get a Stream
  */
 var streamId = 'id":"z1.coding.35d7zfabe3bv5723280200c5';  // required
-client.getStream(streamId, function(err, stream) {
+hub.getStream(streamId, function(err, stream) {
     if (!err) {
         console.log(stream);
         // Log stream
@@ -113,7 +114,7 @@ var options = {
     title  : null     // optional
 };
 
-client.listStreams(options, function(err, marker, streams) {
+hub.listStreams(options, function(err, marker, streams) {
   streams.forEach(function(stream) {
     console.log(stream);
     // Log stream
@@ -359,7 +360,7 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 /**
  * Delete a stream
  */
-client.deleteStream(streamId, function(err, data) {
+hub.deleteStream(streamId, function(err, data) {
     console.log(data);
     // null
 });
