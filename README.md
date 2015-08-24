@@ -3,9 +3,9 @@
 ## Features
 
 - Stream Create, Get, List
-    - [x] client.createStream()
-    - [x] client.getStream()
-    - [x] client.listStreams()
+    - [x] hub.createStream()
+    - [x] hub.getStream()
+    - [x] hub.listStreams()
 - Stream operations else
     - [x] stream.toJSONString()
     - [x] stream.update()
@@ -27,8 +27,8 @@
 - [Installation](#installation)
 - [Usage](#usage)
 	- [Configuration](#configuration)
-	- [Client](#client)
-		- [Create a Pili client](#create-a-pili-client)
+	- [Hub](#hub)
+		- [Create a Pili hub](#create-a-pili-hub)
 		- [Create a Stream](#create-a-stream)
 		- [Get a Stream](#get-a-stream)
 		- [List Stream](#list-streams)
@@ -73,12 +73,13 @@ var HUB = 'PiliHubName';
 // Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 ```
 
-### Client
+### Hub
 
-#### Instantiate a Pili client
+#### Instantiate a Pili hub
 
 ```javascript
-var client = new Pili.Client(ACCESS_KEY, SECRETE_KEY, HUB);
+var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
+var hub = new Pili.Hub(credentials, HUB);
 ```
 
 #### Create a new Stream
@@ -90,7 +91,7 @@ var options = {
   publishSecrity : null     // optional
 };
 
-client.createStream(options, function(err, stream) {
+hub.createStream(options, function(err, stream) {
   if (!err) {
       console.log(stream);
     // Log stream
@@ -132,7 +133,7 @@ client.createStream(options, function(err, stream) {
 
 ```javascript
 var streamId = 'z1.coding.35d7zfabe3bv5723280200c5';  // required
-client.getStream(streamId, function(err, stream) {
+hub.getStream(streamId, function(err, stream) {
     if (!err) {
         console.log(stream);
         // Log stream
@@ -176,7 +177,7 @@ var options = {
     title  : null     // optional
 };
 
-client.listStreams(options, function(err, marker, streams) {
+hub.listStreams(options, function(err, marker, streams) {
   streams.forEach(function(stream) {
     console.log(stream);
     // Log stream
@@ -436,7 +437,7 @@ Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-f
 #### Delete a Stream
 
 ```javascript
-client.deleteStream(streamId, function(err, data) {
+hub.deleteStream(streamId, function(err, data) {
     console.log(data);
     // null
 });
@@ -446,6 +447,8 @@ client.deleteStream(streamId, function(err, data) {
 
 - 1.4.0
 	- Update stream struct
+	- Rename Client to Hub
+	- Add Credentials
 	- Add stream.snapshot()
 	- Add stream.enable()
 	- Add stream.disable()
@@ -453,7 +456,7 @@ client.deleteStream(streamId, function(err, data) {
 	- Update stream.status()
 	- Update stream.toJSONString()
 	- Update stream.segments()
-	- Update client.listStreams()
+	- Update hub.listStreams()
 - 1.2.1
 	- Add stream saveas function
 - 1.2.0
