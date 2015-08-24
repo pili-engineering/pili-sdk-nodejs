@@ -1,4 +1,4 @@
-# Pili server-side library for NodeJS
+# Pili Streaming Cloud server-side library for NodeJS
 
 ## Features
 
@@ -70,7 +70,11 @@ var SECRETE_KEY = 'QiniuSecretKey';
 var HUB = 'PiliHubName';
 
 // Change API host as necessary
-// Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
+//
+// pili.qiniuapi.com as deafult
+// pili-lte.qiniuapi.com is the latest RC version
+//
+Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 ```
 
 ### Hub
@@ -403,9 +407,9 @@ stream.snapshot(name, format, options, function(err, responseData) {
 });
 ```
 
-You can get processing state via Qiniu fop service using persistentId.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
+Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
 
 #### Save Stream as a file
 
@@ -430,9 +434,9 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 });
 ```
 
-You can get processing state via Qiniu fop service using persistentId.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
+Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
 
 #### Delete a Stream
 
@@ -445,10 +449,11 @@ hub.deleteStream(streamId, function(err, data) {
 
 ## History
 
+- 1.5.0
+	- Rename `Client` to `Hub`
+	- Add `Credentials`
 - 1.4.0
 	- Update stream struct
-	- Rename Client to Hub
-	- Add Credentials
 	- Add stream.snapshot()
 	- Add stream.enable()
 	- Add stream.disable()
