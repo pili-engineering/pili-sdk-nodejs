@@ -4,19 +4,23 @@ var Pili = require('../index.js');
 
 // ======================== Configurations =========================
 // Replace with your keys here
-var ACCESS_KEY = 'QiniuAccessKey';
+var ACCESS_KEY  = 'QiniuAccessKey';
 var SECRETE_KEY = 'QiniuSecretKey';
 
 // Replace with your hub name
-var HUB = 'PiliHubName';
+var HUB = 'PiliHubName'; // The Hub must be exists before use
 
-// Change API host if necessary
+// Change API host as necessary
+//
+// pili.qiniuapi.com as deafult
+// pili-lte.qiniuapi.com is the latest RC version
+//
 Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 
 // ========================== Hub ============================
 
 /**
- * Instantiate a Pili hub
+ * Instantiate a Pili hub object
  */
 var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
 var hub = new Pili.Hub(credentials, HUB);
@@ -57,7 +61,7 @@ hub.createStream(options, function(err, stream) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -98,7 +102,7 @@ hub.getStream(streamId, function(err, stream) {
         //         },
         //         "playback":
         //         {
-        //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+        //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
         //         }
         //     }
         // }
@@ -141,7 +145,7 @@ hub.listStreams(options, function(err, marker, streams) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -155,7 +159,7 @@ hub.listStreams(options, function(err, marker, streams) {
  */
 var result = stream.toJSONString();
 console.log(result);
-// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.pub.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.hls.z1.pili.qiniucdn.com"}}}
+// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.pub.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.playback1.z1.pili.qiniucdn.com"}}}
 
 /**
  * Update a Stream
@@ -192,7 +196,7 @@ stream.update(options, function(err, stream) {
     //         },
     //         "playback":
     //         {
-    //             "http":"scv02k.hls.z1.pili.qiniucdn.com"
+    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
     //         }
     //     }
     // }
@@ -224,11 +228,11 @@ stream.status(function(err, status) {
         // {
         //     "addr": "222.73.202.226:2572",
         //     "status": "disconnected",
-        //		 "bytesPerSecond": 16870,
+        //		 "bytesPerSecond": 16870.200000000001,
         //		 "framesPerSecond": {
-        //		 		"audio": 42,
-        //				"video": 14,
-        //				"data": 0
+        //		 		"audio": 42.200000000000003,
+        //				"video": 42.200000000000003,
+        //				"data": 0.066666666666666666
         //		 }
         // }
     }
@@ -274,7 +278,7 @@ console.log(urls);
  var options = {
     startTime : null,	// optional, in second, unix timestamp
     endTime   : null,	// optional, in second, unix timestamp
-    limit	  : null	// optional
+    limit     : null	// optional
  };
 
  stream.segments(options, function(err, segments) {
@@ -304,25 +308,25 @@ var end = 1440196105;
 var urls = stream.hlsPlaybackUrls(start, end);
 console.log(urls);
 // {
-//     ORIGIN: 'http://scv02k.hls.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
+//     ORIGIN: 'http://scv02k.playback1.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
 // }
 
 /**
  * Snapshot Stream
  */
-var name = 'imageName';	// required
-var format = 'jpg';		// required
+var name = 'imageName.jpg'; // required
+var format = 'jpg';	    // required
 
 var options = {
 	time		: 1440196100,	// optional, default as now, in second, unix timestamp
-	notifyUrl	: null			// optional
+	notifyUrl	: null		// optional
 };
 
 stream.snapshot(name, format, options, function(err, responseData) {
 	console.log(responseData);
 	// Log responseData
 	// {
-	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName",
+	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName.jpg",
 	// 	"persistentId": "z1.55d7a6e77823de5a49a8899a"
 	// }
 	//
@@ -334,10 +338,10 @@ stream.snapshot(name, format, options, function(err, responseData) {
 /**
  * Save Stream as a file
  */
-var name = 'videoName';	// required
+var name = 'videoName.mp4';	// required
 var format = 'mp4';		// required
-var start = 1440196065;	// required, in second, unix timestamp
-var end = 1440196105;	// required, in second, unix timestamp
+var start = 1440196065;	        // required, in second, unix timestamp
+var end = 1440196105;	        // required, in second, unix timestamp
 
 var options = {
 	notifyUrl : null	// optional
@@ -347,7 +351,7 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 	// Log responseData
 	// {
 	//     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
-	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName",
+	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.mp4",
 	//     "persistentId": "z1.55d7a6e77823de5a49a8899b"
 	// }
 	//

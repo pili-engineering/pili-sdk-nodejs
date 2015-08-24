@@ -18,8 +18,8 @@
     - [x] stream.httpFlvLiveUrls()
     - [x] stream.segments()
     - [x] stream.hlsPlaybackUrls()
-    - [x] stream.snapshot()
     - [x] stream.saveAs()
+    - [x] stream.snapshot()
     - [x] stream.delete()
 
 ## Content
@@ -28,10 +28,10 @@
 - [Usage](#usage)
 	- [Configuration](#configuration)
 	- [Hub](#hub)
-		- [Create a Pili hub](#create-a-pili-hub)
+		- [Instantiate a Pili Hub object](#instantiate-a-pili-hub-object)
 		- [Create a Stream](#create-a-stream)
 		- [Get a Stream](#get-a-stream)
-		- [List Stream](#list-streams)
+		- [List Streams](#list-streams)
 	- [Stream](#stream)
     - [Update a stream](#update-a-stream)
 		- [To JSON String](#to-json-string)
@@ -45,8 +45,8 @@
 		- [Generate Http-Flv live play URLs](#generate-http-flv-live-play-urls)
 		- [Get stream segments](#get-stream-segments)
 		- [Generate HLS playback URLs](#generate-hls-playback-url)
-		- [Snapshot Stream](#snapshot-stream)
 		- [Save Stream as a file](#save-stream-as)
+		- [Snapshot Stream](#snapshot-stream)
 		- [Delete a Stream](#delete-a-stream)
 - [History](#history)
 
@@ -64,10 +64,10 @@ npm install pili --save
 ```javascript
 var Pili = require('pili');
 
-var ACCESS_KEY = 'QiniuAccessKey';
+var ACCESS_KEY  = 'QiniuAccessKey';
 var SECRETE_KEY = 'QiniuSecretKey';
 
-var HUB = 'PiliHubName';
+var HUB = 'PiliHubName'; // The Hub must be exists before use
 
 // Change API host as necessary
 //
@@ -79,7 +79,7 @@ Pili.config.API_HOST = 'pili-lte.qiniuapi.com';
 
 ### Hub
 
-#### Instantiate a Pili hub
+#### Instantiate a Pili Hub object
 
 ```javascript
 var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
@@ -295,12 +295,12 @@ stream.status(function(err, status) {
         // Log stream status
         // {
         //     "addr": "222.73.202.226:2572",
-        //     "status": "disconnected",
-        //		 "bytesPerSecond": 16870,
+        //     "status": "connected",
+        //		 "bytesPerSecond": 16870.200000000001,
         //		 "framesPerSecond": {
-        //		 		"audio": 42,
-        //				"video": 14,
-        //				"data": 0
+        //		 		"audio": 42.200000000000003,
+        //				"video": 14.733333333333333,
+        //				"data": 0.066666666666666666
         //		 }
         // }
     }
@@ -386,35 +386,10 @@ console.log(urls);
 // }
 ```
 
-#### Snapshot Stream
-
-```javascript
-var name   = 'imageName';	// required
-var format = 'jpg';		// required
-
-var options = {
-	time		: 1440196100,	// optional, default as now, in second, unix timestamp
-	notifyUrl	: null		// optional
-};
-
-stream.snapshot(name, format, options, function(err, responseData) {
-	console.log(responseData);
-	// Log responseData
-	// {
-	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName",
-	// 	"persistentId": "z1.55d7a6e77823de5a49a8899a"
-	// }
-});
-```
-
-While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
-Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
-
 #### Save Stream as a file
 
 ```javascript
-var name   = 'videoName';	// required
+var name   = 'videoName.mp4';	// required
 var format = 'mp4';		// required
 var start  = 1440196065;	// required, in second, unix timestamp
 var end    = 1440196105;	// required, in second, unix timestamp
@@ -428,15 +403,36 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 	// Log responseData
 	// {
 	//     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
-	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName",
+	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.mp4",
 	//     "persistentId": "z1.55d7a6e77823de5a49a8899b"
 	// }
 });
 ```
 
-While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`
-Doc reference: http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.  
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`  
+Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
+
+#### Snapshot Stream
+
+```javascript
+var name   = 'imageName.jpg';	// required
+var format = 'jpg';		// required
+
+var options = {
+	time		: 1440196100,	// optional, default as now, in second, unix timestamp
+	notifyUrl	: null		// optional
+};
+
+stream.snapshot(name, format, options, function(err, responseData) {
+	console.log(responseData);
+	// Log responseData
+	// {
+	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName.jpg",
+	// 	"persistentId": "z1.55d7a6e77823de5a49a8899a"
+	// }
+});
+```
 
 #### Delete a Stream
 
