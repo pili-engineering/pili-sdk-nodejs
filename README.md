@@ -65,7 +65,7 @@ npm install pili --save
 var Pili = require('pili');
 
 var ACCESS_KEY  = 'QiniuAccessKey';
-var SECRETE_KEY = 'QiniuSecretKey';
+var SECRET_KEY  = 'QiniuSecretKey';
 
 var HUB = 'PiliHubName'; // The Hub must be exists before use
 
