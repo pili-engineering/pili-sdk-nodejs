@@ -5,7 +5,7 @@ var Pili = require('../index.js');
 // ======================== Configurations =========================
 // Replace with your keys here
 var ACCESS_KEY  = 'QiniuAccessKey';
-var SECRETE_KEY = 'QiniuSecretKey';
+var SECRET_KEY  = 'QiniuSecretKey';
 
 // Replace with your hub name
 var HUB = 'PiliHubName'; // The Hub must be exists before use
@@ -29,9 +29,9 @@ var hub = new Pili.Hub(credentials, HUB);
  * Create a new Stream
  */
 var options = {
-  title          : null,    // optional
-  publishKey     : null,    // optional
-  publishSecrity : null     // optional
+  title          : null,    // optional, auto-generated as default
+  publishKey     : null,    // optional, auto-generated as default
+  publishSecrity : "static" // optional, can be "dynamic" or "static", "dynamic" as default
 };
 
 hub.createStream(options, function(err, stream) {
@@ -45,14 +45,14 @@ hub.createStream(options, function(err, stream) {
     //     "title":"35d7zfabe3bv5723280200c5",
     //     "hub":"coding",
     //     "publishKey":"f054e65199703b14",
-    //     "publishSecurity":"dynamic",
+    //     "publishSecurity":"static",
     //     "disabled":false,
     //     "profiles":null,
     //     "hosts":
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -86,14 +86,14 @@ hub.getStream(streamId, function(err, stream) {
         //     "title":"35d7zfabe3bv5723280200c5",
         //     "hub":"coding",
         //     "publishKey":"f054e65199703b14",
-        //     "publishSecurity":"dynamic",
+        //     "publishSecurity":"static",
         //     "disabled":false,
         //     "profiles":null,
         //     "hosts":
         //     {
         //         "publish":
         //         {
-        //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+        //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
         //         },
         //         "live":
         //         {
@@ -136,7 +136,7 @@ hub.listStreams(options, function(err, marker, streams) {
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -159,7 +159,7 @@ hub.listStreams(options, function(err, marker, streams) {
  */
 var result = stream.toJSONString();
 console.log(result);
-// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.pub.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.playback1.z1.pili.qiniucdn.com"}}}
+// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.publish.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.playback1.z1.pili.qiniucdn.com"}}}
 
 /**
  * Update a Stream
@@ -187,7 +187,7 @@ stream.update(options, function(err, stream) {
     //     {
     //         "publish":
     //         {
-    //             "rtmp":"scv02k.pub.z1.pili.qiniup.com"
+    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
     //         },
     //         "live":
     //         {
@@ -243,7 +243,7 @@ stream.status(function(err, status) {
  */
 var publishUrl = stream.rtmpPublishUrl();
 console.log(publishUrl);
-// rtmp://scv02k.pub.z1.pili.qiniup.com/coding/55d7f934e3ba5723280000cb?key=new_secret_words
+// rtmp://scv02k.publish.z1.pili.qiniup.com/coding/55d7f934e3ba5723280000cb?key=new_secret_words
 
 /**
  * Generate RTMP live play URLs
