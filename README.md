@@ -65,7 +65,7 @@ npm install pili --save
 var Pili = require('pili');
 
 var ACCESS_KEY  = 'QiniuAccessKey';
-var SECRETE_KEY = 'QiniuSecretKey';
+var SECRET_KEY  = 'QiniuSecretKey';
 
 var HUB = 'PiliHubName'; // The Hub must be exists before use
 
@@ -90,9 +90,9 @@ var hub = new Pili.Hub(credentials, HUB);
 
 ```javascript
 var options = {
-  title          : null,    // optional
-  publishKey     : null,    // optional
-  publishSecrity : null     // optional
+  title          : null,    // optional, auto-generated as default
+  publishKey     : null,    // optional, auto-generated as default
+  publishSecrity : "static" // optional, can be "dynamic" or "static", "dynamic" as default
 };
 
 hub.createStream(options, function(err, stream) {
@@ -106,7 +106,7 @@ hub.createStream(options, function(err, stream) {
     //     "title":"35d7zfabe3bv5723280200c5",
     //     "hub":"coding",
     //     "publishKey":"f054e65199703b14",
-    //     "publishSecurity":"dynamic",
+    //     "publishSecurity":"static",
     //     "disabled":false,
     //     "profiles":null,
     //     "hosts":
@@ -148,7 +148,7 @@ hub.getStream(streamId, function(err, stream) {
         //     "title":"35d7zfabe3bv5723280200c5",
         //     "hub":"coding",
         //     "publishKey":"f054e65199703b14",
-        //     "publishSecurity":"dynamic",
+        //     "publishSecurity":"static",
         //     "disabled":false,
         //     "profiles":null,
         //     "hosts":
