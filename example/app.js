@@ -364,7 +364,7 @@ stream.saveAs(name, format, start, end, options, function(err, responseData) {
 /**
  * Delete a stream
  */
-hub.deleteStream(streamId, function(err, data) {
+stream.delete(function(err, data) {
     console.log(data);
     // null
 });
