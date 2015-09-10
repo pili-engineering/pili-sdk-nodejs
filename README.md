@@ -295,6 +295,7 @@ stream.status(function(err, status) {
         // Log stream status
         // {
         //     "addr": "222.73.202.226:2572",
+        //     "startFrom": "2015-09-10T05:58:10.289+08:00",
         //     "status": "connected",
         //		 "bytesPerSecond": 16870.200000000001,
         //		 "framesPerSecond": {
@@ -447,6 +448,7 @@ hub.deleteStream(streamId, function(err, data) {
 
 - 1.5.2
    - Update `Stream`'s `hosts`
+   - Add `startFrom` in `Stream status`
 - 1.5.0
 	- Rename `Client` to `Hub`
 	- Add `Credentials`
