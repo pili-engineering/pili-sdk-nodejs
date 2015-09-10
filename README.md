@@ -445,6 +445,8 @@ hub.deleteStream(streamId, function(err, data) {
 
 ## History
 
+- 1.5.2
+   - Update `Stream`'s `hosts`
 - 1.5.0
 	- Rename `Client` to `Hub`
 	- Add `Credentials`
