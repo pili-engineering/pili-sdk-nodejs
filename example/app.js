@@ -341,15 +341,15 @@ stream.snapshot(name, format, options, function(err, responseData) {
  * Save Stream as a file
  */
 var name = 'videoName.mp4';    // required
-var start = 1440196065;            // required, in second, unix timestamp
-var end = 1440196105;            // required, in second, unix timestamp
+var format = 'mp4';            // optional
+var start = 1440196065;        // required, in second, unix timestamp
+var end = 1440196105;          // required, in second, unix timestamp
 
 var options = {
     notifyUrl : null,    // optional
-    format : 'mp4'        // optional
 };
 
-stream.saveAs(name, start, end, options, function(err, responseData) {
+stream.saveAs(name, format, start, end, options, function(err, responseData) {
     // Log responseData
     // {
     //     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
