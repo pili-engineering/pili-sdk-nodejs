@@ -447,7 +447,7 @@ hub.deleteStream(streamId, function(err, data) {
 ## History
 
 - 1.5.3
-   - Use saveAs in hlsPlaybackUrls
+   - Use saveAs in hlsPlaybackUrls, *need async function*
 - 1.5.2
    - Update `Stream`'s `hosts`
    - Add `startFrom` in `Stream status`
