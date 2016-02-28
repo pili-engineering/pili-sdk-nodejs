@@ -206,16 +206,16 @@ stream.update(options, function(err, stream) {
  * Disable a Stream
  */
 stream.disable(function(err, stream) {
-	console.log(stream.disabled);
-	// true
+    console.log(stream.disabled);
+    // true
 });
 
 /**
  * Enable a Stream
  */
 stream.enable(function(err, stream) {
-	console.log(stream.disabled);
-	// false
+    console.log(stream.disabled);
+    // false
 });
 
 /**
@@ -229,12 +229,12 @@ stream.status(function(err, status) {
         //     "addr": "222.73.202.226:2572",
         //     "startFrom": "2015-09-10T05:58:10.289+08:00",
         //     "status": "disconnected",
-        //		 "bytesPerSecond": 16870.200000000001,
-        //		 "framesPerSecond": {
-        //		 		"audio": 42.200000000000003,
-        //				"video": 42.200000000000003,
-        //				"data": 0.066666666666666666
-        //		 }
+        //         "bytesPerSecond": 16870.200000000001,
+        //         "framesPerSecond": {
+        //                 "audio": 42.200000000000003,
+        //                "video": 42.200000000000003,
+        //                "data": 0.066666666666666666
+        //         }
         // }
     }
 });
@@ -277,28 +277,28 @@ console.log(urls);
  * Get Stream segments
  */
  var options = {
-    startTime : null,	// optional, in second, unix timestamp
-    endTime   : null,	// optional, in second, unix timestamp
-    limit     : null	// optional
+    startTime : null,    // optional, in second, unix timestamp
+    endTime   : null,    // optional, in second, unix timestamp
+    limit     : null    // optional
  };
 
- stream.segments(options, function(err, segments) {
- 	if (!err) {
- 		console.log(segments);
- 		// Log stream segments
- 		// [
- 		//     {
- 		//         "start": 1440196065,
- 		//         "end": 1440196124
- 		//     },
- 		//     {
- 		//         "start": 1440198072,
- 		//         "end": 1440198092
- 		//     },
- 		//     ...
- 		// ]
- 	}
- });
+stream.segments(options, function(err, segments) {
+    if (!err) {
+        console.log(segments);
+        // Log stream segments
+        // [
+        //     {
+        //         "start": 1440196065,
+        //         "end": 1440196124
+        //     },
+        //     {
+        //         "start": 1440198072,
+        //         "end": 1440198092
+        //     },
+        //     ...
+        // ]
+    }
+});
 
 /**
  * Generate HLS playback URL
@@ -306,60 +306,61 @@ console.log(urls);
 var start = 1440196065;
 var end = 1440196105;
 
-var urls = stream.hlsPlaybackUrls(start, end);
-console.log(urls);
-// {
-//     ORIGIN: 'http://scv02k.playback1.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
-// }
+var urls = stream.hlsPlaybackUrls(start, end, function(err, urls) {
+    console.log(urls);
+    // {
+    //     ORIGIN: 'http://scv02k.playback1.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
+    // }
+});
 
 /**
  * Snapshot Stream
  */
 var name = 'imageName.jpg'; // required
-var format = 'jpg';	    // required
+var format = 'jpg';        // required
 
 var options = {
-	time		: 1440196100,	// optional, default as now, in second, unix timestamp
-	notifyUrl	: null		// optional
+    time        : 1440196100,    // optional, default as now, in second, unix timestamp
+    notifyUrl    : null        // optional
 };
 
 stream.snapshot(name, format, options, function(err, responseData) {
-	console.log(responseData);
-	// Log responseData
-	// {
-	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName.jpg",
-	// 	"persistentId": "z1.55d7a6e77823de5a49a8899a"
-	// }
-	//
-	// You can get saving state via Qiniu fop service using persistentId.
-	// API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-	// Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+    console.log(responseData);
+    // Log responseData
+    // {
+    //     "targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName.jpg",
+    //     "persistentId": "z1.55d7a6e77823de5a49a8899a"
+    // }
+    //
+    // You can get saving state via Qiniu fop service using persistentId.
+    // API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
+    // Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
 });
 
 /**
  * Save Stream as a file
  */
-var name = 'videoName.mp4';	// required
-var format = 'mp4';		// required
-var start = 1440196065;	        // required, in second, unix timestamp
-var end = 1440196105;	        // required, in second, unix timestamp
+var name = 'videoName.mp4';    // required
+var format = 'mp4';            // optional
+var start = 1440196065;        // required, in second, unix timestamp
+var end = 1440196105;          // required, in second, unix timestamp
 
 var options = {
-	notifyUrl : null	// optional
+    notifyUrl : null,    // optional
 };
 
 stream.saveAs(name, format, start, end, options, function(err, responseData) {
-	// Log responseData
-	// {
-	//     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
-	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.mp4",
-	//     "persistentId": "z1.55d7a6e77823de5a49a8899b"
-	// }
-	//
-	// You can get saving state via Qiniu fop service using persistentId.
-	// API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
-	// Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
-	console.log(responseData);
+    // Log responseData
+    // {
+    //     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
+    //     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.mp4",
+    //     "persistentId": "z1.55d7a6e77823de5a49a8899b"
+    // }
+    //
+    // You can get saving state via Qiniu fop service using persistentId.
+    // API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
+    // Doc reference: `http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status`
+    console.log(responseData);
 });
 
 /**
