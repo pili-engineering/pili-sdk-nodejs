@@ -82,7 +82,7 @@ var HUB = 'PiliHubName'; // The Hub must be exists before use
 #### Instantiate a Pili Hub object
 
 ```javascript
-var credentials = new Pili.Credentials(ACCESS_KEY, SECRETE_KEY);
+var credentials = new Pili.Credentials(ACCESS_KEY, SECRET_KEY);
 var hub = new Pili.Hub(credentials, HUB);
 ```
 
