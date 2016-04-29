@@ -391,12 +391,13 @@ console.log(urls);
 
 ```javascript
 var name   = 'videoName.mp4';	// required
-var format = 'mp4';		// required
 var start  = 1440196065;	// required, in second, unix timestamp
 var end    = 1440196105;	// required, in second, unix timestamp
+var format = 'mp4';		// optional
 
 var options = {
-	notifyUrl : null	// optional
+	notifyUrl : null,	// optional
+    pipeline : null     // optional
 };
 
 stream.saveAs(name, format, start, end, options, function(err, responseData) {
@@ -446,6 +447,8 @@ hub.deleteStream(streamId, function(err, data) {
 
 ## History
 
+- 1.5.4
+   - Add pipeline in saveAs
 - 1.5.3
    - Use saveAs in hlsPlaybackUrls, *need async function*
 - 1.5.2
