@@ -1,7 +1,7 @@
 {
   "name": "pili",
-  "version": "v1.5.3",
-  "description": "Pili Streaming Cloud server-side library for NodeJS",
+  "version": "v1.5.4",
+  "description": "Pili Streaming Cloud Server-Side Library For NodeJS",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -24,6 +24,10 @@
     {
       "name": "0dayZh",
       "email": "0day.zh@gmail.com"
+    }
+    {
+      "name": "pili",
+      "email": "pili@qiniu.com"
     }
   ],
   "license": "MIT",
