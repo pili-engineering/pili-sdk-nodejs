@@ -1,6 +1,7 @@
 language: node_js
 node_js:
-- 0.1
+- "0.1"
+- "5"
 deploy:
   provider: npm
   email: "sdk@qiniu.com"
