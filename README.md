@@ -1,54 +1,55 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Pili Streaming Cloud server-side library for NodeJS](#pili-streaming-cloud-server-side-library-for-nodejs)
+  - [Features](#features)
+  - [Installaion](#installaion)
+  - [Usage](#usage)
+    - [Configuration](#configuration)
+    - [URL](#url)
+      - [Generate RTMP publish URL](#generate-rtmp-publish-url)
+      - [Generate RTMP play URL](#generate-rtmp-play-url)
+      - [Generate HLS play URL](#generate-hls-play-url)
+      - [Generate HDL play URL](#generate-hdl-play-url)
+      - [Generate Snapshot play URL](#generate-snapshot-play-url)
+    - [Hub](#hub)
+      - [Instantiate a Pili Hub object](#instantiate-a-pili-hub-object)
+      - [Create a new Stream](#create-a-new-stream)
+      - [Get a Stream](#get-a-stream)
+      - [LiveInfo](#liveinfo)
+      - [List Stream](#list-stream)
+    - [Stream](#stream)
+      - [Disable a Stream](#disable-a-stream)
+      - [Enable a Stream](#enable-a-stream)
+      - [Get Stream live status](#get-stream-live-status)
+      - [Get Stream history activity](#get-stream-history-activity)
+      - [Save Stream live playback](#save-stream-live-playback)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Pili Streaming Cloud server-side library for NodeJS
 
 ## Features
 
-- Stream Create, Get, List
-    - [x] hub.createStream()
-    - [x] hub.getStream()
-    - [x] hub.listStreams()
-- Stream operations else
-    - [x] stream.toJSONString()
-    - [x] stream.update()
-    - [x] stream.disable()
-    - [x] stream.enable()
-    - [x] stream.status()
-    - [x] stream.rtmpPublishUrl()
-    - [x] stream.rtmpLiveUrls()
-    - [x] stream.hlsLiveUrls()
-    - [x] stream.httpFlvLiveUrls()
-    - [x] stream.segments()
-    - [x] stream.hlsPlaybackUrls()
-    - [x] stream.saveAs()
-    - [x] stream.snapshot()
-    - [x] stream.delete()
-
-## Content
-
-- [Installation](#installation)
-- [Usage](#usage)
-	- [Configuration](#configuration)
-	- [Hub](#hub)
-		- [Instantiate a Pili Hub object](#instantiate-a-pili-hub-object)
-		- [Create a Stream](#create-a-stream)
-		- [Get a Stream](#get-a-stream)
-		- [List Streams](#list-streams)
-	- [Stream](#stream)
-    - [Update a stream](#update-a-stream)
-		- [To JSON String](#to-json-string)
-		- [Update a Stream](#update-a-stream)
-		- [Disable a Stream](#disable-a-stream)
-		- [Enable a Stream](#enable-a-stream)
-		- [Get Stream status](#get-stream-status)
-		- [Generate RTMP publish URL](#generate-rtmp-publish-url)
-		- [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
-		- [Generate HLS live play URLs](#generate-hls-live-play-urls)
-		- [Generate Http-Flv live play URLs](#generate-http-flv-live-play-urls)
-		- [Get stream segments](#get-stream-segments)
-		- [Generate HLS playback URLs](#generate-hls-playback-url)
-		- [Save Stream as a file](#save-stream-as)
-		- [Snapshot Stream](#snapshot-stream)
-		- [Delete a Stream](#delete-a-stream)
-- [History](#history)
+- URL
+	- [x] RTMP推流地址: RTMPPublishURL(domain, hub, streamKey, mac, expireAfterSeconds)
+	- [x] RTMP直播地址: RTMPPlayURL(domain, hub, streamKey)
+	- [x] HLS直播地址: HLSPlayURL(domain, hub, streamKey)
+	- [x] HDL直播地址: HDLPlayURL(domain, hub, streamKey)
+	- [x] 截图直播地址: SnapshotPlayURL(domain, hub, streamKey)
+- Hub
+	- [x] 创建流: hub.Create(streamKey)
+	- [x] 获得流: hub.Stream(streamKey)
+	- [x] 列出流: hub.List(prefix, limit, marker)
+	- [x] 列出正在直播的流: hub.ListLive(prefix, limit, marker)
+- Stream
+	- [x] 流信息: stream.Info()
+	- [x] 禁用流: stream.Disable()
+	- [x] 启用流: stream.Enable()
+ 	- [x] 查询直播状态: stream.LiveStatus()
+	- [x] 保存直播回放: stream.Save(start, end)
+	- [x] 查询直播历史: stream.HistoryActivity(start, end)
 
 ## Installaion
 
@@ -69,12 +70,49 @@ var SECRET_KEY  = 'QiniuSecretKey';
 
 var HUB = 'PiliHubName'; // The Hub must be exists before use
 
-// Change API host as necessary
-//
-// pili.qiniuapi.com as default
-// pili-lte.qiniuapi.com is the latest RC version
-//
-// Pili.config.API_HOST = 'pili.qiniuapi.com'; // default
+var credentials = new Pili.Credentials(ACCESS_KEY, SECRET_KEY);
+```
+
+### URL
+
+#### Generate RTMP publish URL
+
+```
+var url = Pili.publishURL(credentials,'publish-rtmp.test.com', 'PiliSDKTest', 'streamkey', 60);
+console.log(url);
+// rtmp://publish-rtmp.test.com/PiliSDKTest/streamkey?e=1466652726&token=9roGzeeJkZh4y5gHpzT7Uv1CIw0KiVV8K4dfXRY0:bYZGIdK-tjjAfyIwbShQ5Bb1kBY=
+```
+
+#### Generate RTMP play URL
+
+```
+var url = Pili.rtmpPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
+console.log(url);
+// rtmp://live-rtmp.test.com/PiliSDKTest/streamkey
+```
+
+#### Generate HLS play URL
+
+```
+var url = Pili.hlsPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
+console.log(url);
+// http://live-rtmp.test.com/PiliSDKTest/streamkey.m3u8
+```
+
+#### Generate HDL play URL
+
+```
+var url = Pili.hdlPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
+console.log(url);
+// http://live-rtmp.test.com/PiliSDKTest/streamkey.flv
+```
+
+#### Generate Snapshot play URL
+
+```
+var url = Pili.snapshotPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
+console.log(url);
+// http://live-rtmp.test.com/PiliSDKTest/streamkey.jpg
 ```
 
 ### Hub
@@ -82,53 +120,19 @@ var HUB = 'PiliHubName'; // The Hub must be exists before use
 #### Instantiate a Pili Hub object
 
 ```javascript
-var credentials = new Pili.Credentials(ACCESS_KEY, SECRET_KEY);
 var hub = new Pili.Hub(credentials, HUB);
 ```
 
 #### Create a new Stream
 
 ```javascript
-var options = {
-  title          : null,    // optional, auto-generated as default
-  publishKey     : null,    // optional, auto-generated as default
-  publishSecrity : "static" // optional, can be "dynamic" or "static", "dynamic" as default
-};
+hub.createStream(streamKey, function(err, stream) {
 
-hub.createStream(options, function(err, stream) {
   if (!err) {
       console.log(stream);
-    // Log stream
-    // {
-    //     "id":"z1.coding.35d7zfabe3bv5723280200c5",
-    //     "createdAt":"2015-08-22T03:43:55.247Z",
-    //     "updatedAt":"2015-08-22T03:43:55.247Z",
-    //     "title":"35d7zfabe3bv5723280200c5",
-    //     "hub":"coding",
-    //     "publishKey":"f054e65199703b14",
-    //     "publishSecurity":"static",
-    //     "disabled":false,
-    //     "profiles":null,
-    //     "hosts":
-    //     {
-    //         "publish":
-    //         {
-    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
-    //         },
-    //         "live":
-    //         {
-    //             "http":"scv02k.live1-http.z1.pili.qiniucdn.com",
-    //             "rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"
-    //         },
-    //         "playback":
-    //         {
-    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
-    //         }
-    //     }
-    // }
   } else {
     // Log error
-    console.log(err + 'error code: ' + err.errorCode + 'http code: ' err.httpCode);
+    console.log(err, err.errorCode, err.httpCode);
   }
 });
 ```
@@ -136,361 +140,115 @@ hub.createStream(options, function(err, stream) {
 #### Get a Stream
 
 ```javascript
-var streamId = 'z1.coding.35d7zfabe3bv5723280200c5';  // required
-hub.getStream(streamId, function(err, stream) {
+var stream = hub.newStream(streamKey);
+
+stream.loadInfo(function(err) {
+	if (!err) {
+		console.log(stream);
+	} else {
+		console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+	}
+})
+```
+
+#### LiveInfo
+
+```javascript
+stream.liveInfo(function(err, status) {
     if (!err) {
-        console.log(stream);
-        // Log stream
-        // {
-        //     "id":"z1.coding.35d7zfabe3bv5723280200c5",
-        //     "createdAt":"2015-08-22T03:43:55.247Z",
-        //     "updatedAt":"2015-08-22T03:43:55.247Z",
-        //     "title":"35d7zfabe3bv5723280200c5",
-        //     "hub":"coding",
-        //     "publishKey":"f054e65199703b14",
-        //     "publishSecurity":"static",
-        //     "disabled":false,
-        //     "profiles":null,
-        //     "hosts":
-        //     {
-        //         "publish":
-        //         {
-        //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
-        //         },
-        //         "live":
-        //         {
-        //             "http":"scv02k.live1-http.z1.pili.qiniucdn.com",
-        //             "rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"
-        //         },
-        //         "playback":
-        //         {
-        //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
-        //         }
-        //     }
-        // }
-    }
+			console.log(status);
+		} else {
+			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+		}
 });
 ```
 
 #### List Stream
 
 ```javascript
-var options = {
-    marker : null,    // optional
-    limit  : null,    // optional
-    title  : null     // optional
+var listOptions = {
+	'liveonly': false,
+	'prefix': '',
+	'limit': 2,
 };
 
-hub.listStreams(options, function(err, marker, streams) {
-  streams.forEach(function(stream) {
-    console.log(stream);
-    // Log stream
-    // {
-    //     "id":"z1.coding.35d7zfabe3bv5723280200c5",
-    //     "createdAt":"2015-08-22T03:43:55.247Z",
-    //     "updatedAt":"2015-08-22T03:43:55.247Z",
-    //     "title":"35d7zfabe3bv5723280200c5",
-    //     "hub":"coding",
-    //     "publishKey":"f054e65199703b14",
-    //     "publishSecurity":"dynamic",
-    //     "disabled":false,
-    //     "profiles":null,
-    //     "hosts":
-    //     {
-    //         "publish":
-    //         {
-    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
-    //         },
-    //         "live":
-    //         {
-    //             "http":"scv02k.live1-http.z1.pili.qiniucdn.com",
-    //             "rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"
-    //         },
-    //         "playback":
-    //         {
-    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
-    //         }
-    //     }
-    // }
-  });
-});
+var listCallBack = function(err, marker, streams) {
+	if (!err) {
+		streams.forEach(function(stream) {
+			console.log(stream);
+		});
+		if (marker) {
+			listOptions.marker = marker;
+			hub.listStreams(listOptions, listCallBack);
+		}
+	} else {
+		 console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+	}
+}
+
+hub.listStreams(listOptions, listCallBack);
 ```
 
 ### Stream
 
-#### To JSON String
-
-```javascript
-var result = stream.toJSONString();
-console.log(result);
-// {"id":"z1.coding.55d7f30ce3ba5723280000c5","createdAt":"2015-08-22T03:57:00.064Z","updatedAt":"2015-08-22T03:57:00.064Z","title":"55d7f30ce3ba5723280000c5","hub":"coding","publishKey":"131be2572c682413","publishSecurity":"dynamic","disabled":false,"profiles":null,"hosts":{"publish":{"rtmp":"scv02k.publish.z1.pili.qiniup.com"},"live":{"http":"scv02k.live1-http.z1.pili.qiniucdn.com","rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"},"playback":{"http":"scv02k.playback1.z1.pili.qiniucdn.com"}}}
-```
-
-#### Update a Stream
-
-```javascript
-var options = {
-  publishKey     : 'new_secret_words',  // optional
-  publishSecrity : 'static',            // optional, can be "dynamic" or "static"
-  disabled       : false                // optional, can be "true" of "false"
-};
-
-stream.update(options, function(err, stream) {
-    console.log(stream);
-    // Log stream
-    // {
-    //     "id":"z1.coding.35d7zfabe3bv5723280200c5",
-    //     "createdAt":"2015-08-22T03:43:55.247Z",
-    //     "updatedAt":"2015-08-22T03:43:55.247Z",
-    //     "title":"35d7zfabe3bv5723280200c5",
-    //     "hub":"coding",
-    //     "publishKey":"new_secret_words",
-    //     "publishSecurity":"static",
-    //     "disabled":false,
-    //     "profiles":null,
-    //     "hosts":
-    //     {
-    //         "publish":
-    //         {
-    //             "rtmp":"scv02k.publish.z1.pili.qiniup.com"
-    //         },
-    //         "live":
-    //         {
-    //             "http":"scv02k.live1-http.z1.pili.qiniucdn.com",
-    //             "rtmp":"scv02k.live1-rtmp.z1.pili.qiniucdn.com"
-    //         },
-    //         "playback":
-    //         {
-    //             "http":"scv02k.playback1.z1.pili.qiniucdn.com"
-    //         }
-    //     }
-    // }
-});
-```
-
 #### Disable a Stream
 
-```javascript
-stream.disable(function(err, stream) {
-	console.log(stream.disabled);
-	// true
+```
+stream.disable(-1, function(err) {
+    console.log(stream.disabledTill);
 });
 ```
 
 #### Enable a Stream
 
-```javascript
-stream.enable(function(err, stream) {
-	console.log(stream.disabled);
-	// false
+```
+stream.enable(function(err) {
+    console.log(stream.disabledTill);
 });
 ```
 
-#### Get Stream status
+#### Get Stream live status
 
-```javascript
-stream.status(function(err, status) {
+```
+stream.liveInfo(function(err, status) {
     if (!err) {
-        console.log(status);
-        // Log stream status
-        // {
-        //     "addr": "222.73.202.226:2572",
-        //     "startFrom": "2015-09-10T05:58:10.289+08:00",
-        //     "status": "connected",
-        //		 "bytesPerSecond": 16870.200000000001,
-        //		 "framesPerSecond": {
-        //		 		"audio": 42.200000000000003,
-        //				"video": 14.733333333333333,
-        //				"data": 0.066666666666666666
-        //		 }
-        // }
-    }
+			console.log(status);
+		} else {
+			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+		}
 });
 ```
 
-#### Generate RTMP publish URL
+#### Get Stream history activity
 
-```javascript
-var publishUrl = stream.rtmpPublishUrl();
-console.log(publishUrl);
-// rtmp://scv02k.publish.z1.pili.qiniup.com/coding/55d7f934e3ba5723280000cb?key=new_secret_words
+```
+var publishHistoryOptions = {
+   start : null,    // optional, in second, unix timestamp
+   end   : null,    // optional, in second, unix timestamp
+};
+stream.publishHistory(publishHistoryOptions, function(err, history) {
+	if (!err) {
+		console.log(history);
+	} else {
+			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+	}
+})
 ```
 
-#### Generate RTMP live play URLs
+#### Save Stream live playback
 
-```javascript
-var urls = stream.rtmpLiveUrls();
-console.log(urls);
-// {
-//     'ORIGIN': 'rtmp://scv02k.live1-rtmp.z1.pili.qiniucdn.com/coding/55d7f934e3ba5723280000cb'
-// }
 ```
-
-#### Generate HLS live play URLs
-
-```javascript
-var urls = stream.hlsLiveUrls();
-console.log(urls);
-// {
-//     'ORIGIN': 'http://scv02k.live1-http.z1.pili.qiniucdn.com/coding/55d7f934e3ba5723280000cb.m3u8'
-// }
-```
-
-#### Generate Http-Flv live play URLs
-
-```javascript
-var urls = stream.httpFlvLiveUrls();
-console.log(urls);
-// {
-//     'ORIGIN': 'http://scv02k.live1-http.z1.pili.qiniucdn.com/coding/55d7f934e3ba5723280000cb.flv'
-// }
-```
-
-#### Get Stream segments
-
-```javascript
-var options = {
-   startTime : null,	// optional, in second, unix timestamp
-   endTime   : null,	// optional, in second, unix timestamp
-   limit     : null	// optional
+var savePlaybackOptions = {
+   start : null,    // optional, in second, unix timestamp
+   end   : null,    // optional, in second, unix timestamp
 };
 
-stream.segments(options, function(err, segments) {
-   if (!err) {
-	   console.log(segments);
-	   // Log stream segments
-	   // [
-	   //     {
-	   //         "start": 1440196065,
-	   //         "end": 1440196124
-	   //     },
-	   //     {
-	   //         "start": 1440198072,
-	   //         "end": 1440198092
-	   //     },
-	   //     ...
-	   // ]
-   }
+stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
+
+    if (!err) {
+			console.log(m3u8Name);
+		} else {
+			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+		}
 });
 ```
-
-#### Generate HLS playback URLs
-
-```javascript
-var start = 1440196065; // required, in second, unix timestamp
-var end   = 1440196105; // required, in second, unix timestamp
-
-var urls = stream.hlsPlaybackUrls(start, end);
-console.log(urls);
-// {
-//     ORIGIN: 'http://scv02k.playback1.z1.pili.qiniucdn.com/coding/55d7fa0ee3ba5723280000cc.m3u8?start=1440196065&end=1440196105'
-// }
-```
-
-#### Save Stream as a file
-
-```javascript
-var name   = 'videoName.mp4';	// required
-var start  = 1440196065;	// required, in second, unix timestamp
-var end    = 1440196105;	// required, in second, unix timestamp
-var format = 'mp4';		// optional
-
-var options = {
-	notifyUrl : null,	// optional
-    pipeline : null     // optional
-};
-
-stream.saveAs(name, format, start, end, options, function(err, responseData) {
-	console.log(responseData);
-	// Log responseData
-	// {
-	//     "url": "http://scv02k.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.m3u8",
-	//     "targetUrl": "http://scv02k.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7faf0e3ba5723280000cd/videoName.mp4",
-	//     "persistentId": "z1.55d7a6e77823de5a49a8899b"
-	// }
-});
-```
-
-While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.  
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`  
-Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
-
-#### Snapshot Stream
-
-```javascript
-var name   = 'imageName.jpg';	// required
-var format = 'jpg';		// required
-
-var options = {
-	time		: 1440196100,	// optional, default as now, in second, unix timestamp
-	notifyUrl	: null		// optional
-};
-
-stream.snapshot(name, format, options, function(err, responseData) {
-	console.log(responseData);
-	// Log responseData
-	// {
-	// 	"targetUrl": "http://scv02k.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7faf0e3ba5723280000cd/imageName.jpg",
-	// 	"persistentId": "z1.55d7a6e77823de5a49a8899a"
-	// }
-});
-```
-
-#### Delete a Stream
-
-```javascript
-hub.deleteStream(streamId, function(err, data) {
-    console.log(data);
-    // null
-});
-```
-
-## History
-
-- 1.5.4
-   - Add pipeline in saveAs
-- 1.5.3
-   - Use saveAs in hlsPlaybackUrls, *need async function*
-- 1.5.2
-   - Update `Stream`'s `hosts`
-   - Add `startFrom` in `Stream status`
-- 1.5.0
-	- Rename `Client` to `Hub`
-	- Add `Credentials`
-- 1.4.0
-	- Update stream struct
-	- Add stream.snapshot()
-	- Add stream.enable()
-	- Add stream.disable()
-	- Add stream.httpFlvLiveUrls()
-	- Update stream.status()
-	- Update stream.toJSONString()
-	- Update stream.segments()
-	- Update hub.listStreams()
-- 1.2.1
-	- Add stream saveas function
-- 1.2.0
-  - Update Stream object
-  - Add new Stream functions
-  - Update Client functions
-- 1.0.7
-  - Fix import bug
-- 1.0.6
-  - Fix GET request query method
-  - Add more defensive code to improve robustness
-- 1.0.5
-  - Fix dynamic RTMP publish URL nonce generate bug
-- 1.0.4
-	- Add server error handle
-	- Fix merge bugs
-- 1.0.2
-	- Update client create function
-	- Update optional params
-	- Add ```disabled``` field in ```Stream```
-	- Add ```getStreamStatus``` function in ```Client```
-- 1.0.1
-	- Update Stream publish and play url generate functions
-- 1.0.0
-	- Init sdk
-	- Add Stream API
-	- Add publish and play policy
