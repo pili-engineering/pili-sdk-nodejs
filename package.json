@@ -1,5 +1,5 @@
 {
-  "name": "pili",
+  "name": "piliv2",
   "version": "v2.0.0",
   "description": "Pili Streaming Cloud Server-Side Library For NodeJS",
   "main": "index.js",

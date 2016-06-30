@@ -55,7 +55,7 @@
 
 ```shell
 // install latest version
-npm install pili --save
+npm install piliv2 --save
 ```
 
 ## Usage
@@ -63,7 +63,7 @@ npm install pili --save
 ### Configuration
 
 ```javascript
-var Pili = require('pili');
+var Pili = require('piliv2');
 
 var ACCESS_KEY  = 'QiniuAccessKey';
 var SECRET_KEY  = 'QiniuSecretKey';
