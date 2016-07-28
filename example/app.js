@@ -31,7 +31,7 @@ var hub = new Pili.Hub(credentials, HUB);
 var options = {
   title          : null,    // optional, auto-generated as default
   publishKey     : null,    // optional, auto-generated as default
-  publishSecrity : "static" // optional, can be "dynamic" or "static", "dynamic" as default
+  publishSecurity : "static" // optional, can be "dynamic" or "static", "dynamic" as default
 };
 
 hub.createStream(options, function(err, stream) {
