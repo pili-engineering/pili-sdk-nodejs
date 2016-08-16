@@ -67,7 +67,7 @@ hub.createStream(options, function(err, stream) {
     // }
   } else {
     // Log error
-    console.log(err + 'error code: ' + err.errorCode + 'http code: ' err.httpCode);
+    console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
   }
 });
 
