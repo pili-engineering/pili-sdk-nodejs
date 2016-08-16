@@ -446,7 +446,8 @@ hub.deleteStream(streamId, function(err, data) {
 ```
 
 ## History
-
+- 1.5.5
+   - fixed token url generate bug.
 - 1.5.4
    - Add pipeline in saveAs
 - 1.5.3
