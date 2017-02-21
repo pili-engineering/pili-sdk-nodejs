@@ -1,6 +1,6 @@
 {
   "name": "piliv2",
-  "version": "v2.0.1",
+  "version": "v2.0.2",
   "description": "Pili Streaming Cloud Server-Side Library For NodeJS",
   "main": "index.js",
   "scripts": {
