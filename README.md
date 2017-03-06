@@ -25,6 +25,11 @@
       - [Get Stream live status](#get-stream-live-status)
       - [Get Stream history activity](#get-stream-history-activity)
       - [Save Stream live playback](#save-stream-live-playback)
+    - [RTC(连麦)](#rtc连麦)
+      - [create rtc room](#create-rtc-room)
+      - [get rtc room](#get-rtc-room)
+      - [delete rtc room](#delete-rtc-room)
+      - [generate token](#generate-token)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -50,6 +55,11 @@
  	- [x] 查询直播状态: stream.LiveStatus()
 	- [x] 保存直播回放: stream.Save(start, end)
 	- [x] 查询直播历史: stream.HistoryActivity(start, end)
+- RTC(连麦)
+	- [x] 创建房间: rtc.createRoom(ownerID, roomName, options)
+	- [x] 查看房间: rtc.getRoom(roomName)
+	- [x] 删除房间: rtc.deleteRoom(roomName)
+	- [x] 生成token: rtc.roomToken(roomAccess)
 
 ## Installaion
 
@@ -252,4 +262,55 @@ stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
 			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
 		}
 });
+```
+
+### RTC(连麦)
+
+可以参考`example/rtc.js`文件
+
+#### create rtc room
+
+```
+rtc.createRoom(ownerID, roomName, {}, function(err, roomInfo) {
+  if (!err) {
+    console.log(roomInfo);
+  } else {
+    console.log(err);
+  }
+})
+```
+
+#### get rtc room
+
+```
+rtc.getRoom(roomName, function(err, info) {
+  if (!err) {
+    console.log(info);
+  } else {
+    console.log(err);
+  }
+})
+```
+
+#### delete rtc room
+
+```
+rtc.deleteRoom(roomName, function(err) {
+  if (!err) {
+    console.log("delete ok");
+  } else {
+    console.log(err);
+  }
+})
+```
+
+#### generate token
+
+```
+var roomToken = rtc.roomToken({
+  "room_name": roomName,
+  "user_id": ownerID,
+  "perm": "user"
+})
+console.log(roomToken);
 ```
