@@ -241,6 +241,7 @@ stream.publishHistory(publishHistoryOptions, function(err, history) {
 var savePlaybackOptions = {
    start : null,    // optional, in second, unix timestamp
    end   : null,    // optional, in second, unix timestamp
+   format: null,    // optional, file format
 };
 
 stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
