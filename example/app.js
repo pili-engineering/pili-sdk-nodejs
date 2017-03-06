@@ -81,6 +81,22 @@ var listCallBack = function(err, marker, streams) {
 
 hub.listStreams(listOptions, listCallBack);
 
+
+/**
+ * Get Streams Live Info
+ */
+hub.listLiveStreams([streamKey], function (err, items) {
+    if (!err) {
+        console.log('live streams: ');
+        items.forEach(function(item) {
+            console.log(item);
+        });
+    }
+    else {
+        console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
+});
+
 /**
  * Get Stream Info
  */
@@ -124,8 +140,9 @@ stream.liveInfo(function(err, status) {
  * Get Stream segments
  */
 var savePlaybackOptions = {
-   start : null,    // optional, in second, unix timestamp
-   end   : null,    // optional, in second, unix timestamp
+    fname: streamKey,
+    start : null,    // optional, in second, unix timestamp
+    end   : null    // optional, in second, unix timestamp
 };
 
 stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
@@ -135,6 +152,21 @@ stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
 		} else {
 			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
 		}
+});
+
+/**
+ * Get Stream snapshot
+ */
+var saveSnapshotOptions = {
+    fname: streamKey
+};
+
+stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {
+    if (!err) {
+        console.log(snapshotName);
+    } else {
+        console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
 });
 
 /**
