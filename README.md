@@ -19,12 +19,14 @@
       - [Get a Stream](#get-a-stream)
       - [LiveInfo](#liveinfo)
       - [List Stream](#list-stream)
+      - [Get Streams live status](#get-streams-live-status)
     - [Stream](#stream)
       - [Disable a Stream](#disable-a-stream)
       - [Enable a Stream](#enable-a-stream)
       - [Get Stream live status](#get-stream-live-status)
       - [Get Stream history activity](#get-stream-history-activity)
       - [Save Stream live playback](#save-stream-live-playback)
+      - [Save Stream snapshot](#save-stream-snapshot)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -43,6 +45,7 @@
 	- [x] 获得流: hub.Stream(streamKey)
 	- [x] 列出流: hub.List(prefix, limit, marker)
 	- [x] 列出正在直播的流: hub.ListLive(prefix, limit, marker)
+	- [x] 批量查询直播实时信息: hub.listLiveStreams(items) 
 - Stream
 	- [x] 流信息: stream.Info()
 	- [x] 禁用流: stream.Disable()
@@ -50,6 +53,8 @@
  	- [x] 查询直播状态: stream.LiveStatus()
 	- [x] 保存直播回放: stream.Save(start, end)
 	- [x] 查询直播历史: stream.HistoryActivity(start, end)
+	- [x] 保存直播截图: stream.saveSnapshot()
+
 
 ## Installaion
 
@@ -77,7 +82,7 @@ var credentials = new Pili.Credentials(ACCESS_KEY, SECRET_KEY);
 
 #### Generate RTMP publish URL
 
-```
+```javascript
 var url = Pili.publishURL(credentials,'publish-rtmp.test.com', 'PiliSDKTest', 'streamkey', 60);
 console.log(url);
 // rtmp://publish-rtmp.test.com/PiliSDKTest/streamkey?e=1466652726&token=9roGzeeJkZh4y5gHpzT7Uv1CIw0KiVV8K4dfXRY0:bYZGIdK-tjjAfyIwbShQ5Bb1kBY=
@@ -85,7 +90,7 @@ console.log(url);
 
 #### Generate RTMP play URL
 
-```
+```javascript
 var url = Pili.rtmpPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
 console.log(url);
 // rtmp://live-rtmp.test.com/PiliSDKTest/streamkey
@@ -93,7 +98,7 @@ console.log(url);
 
 #### Generate HLS play URL
 
-```
+```javascript
 var url = Pili.hlsPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
 console.log(url);
 // http://live-rtmp.test.com/PiliSDKTest/streamkey.m3u8
@@ -101,7 +106,7 @@ console.log(url);
 
 #### Generate HDL play URL
 
-```
+```javascript
 var url = Pili.hdlPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
 console.log(url);
 // http://live-rtmp.test.com/PiliSDKTest/streamkey.flv
@@ -109,7 +114,7 @@ console.log(url);
 
 #### Generate Snapshot play URL
 
-```
+```javascript
 var url = Pili.snapshotPlayURL('live-rtmp.test.com', 'PiliSDKTest', 'streamkey');
 console.log(url);
 // http://live-rtmp.test.com/PiliSDKTest/streamkey.jpg
@@ -189,11 +194,27 @@ var listCallBack = function(err, marker, streams) {
 hub.listStreams(listOptions, listCallBack);
 ```
 
+#### Get Streams live status
+
+```javascript
+hub.listLiveStreams([streamKey], function (err, items) {
+    if (!err) {
+        console.log('live streams: ');
+        items.forEach(function(item) {
+            console.log(item);
+        });
+    }
+    else {
+        console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
+});
+```
+
 ### Stream
 
 #### Disable a Stream
 
-```
+```javascript
 stream.disable(-1, function(err) {
     console.log(stream.disabledTill);
 });
@@ -201,7 +222,7 @@ stream.disable(-1, function(err) {
 
 #### Enable a Stream
 
-```
+```javascript
 stream.enable(function(err) {
     console.log(stream.disabledTill);
 });
@@ -209,7 +230,7 @@ stream.enable(function(err) {
 
 #### Get Stream live status
 
-```
+```javascript
 stream.liveInfo(function(err, status) {
     if (!err) {
 			console.log(status);
@@ -221,7 +242,7 @@ stream.liveInfo(function(err, status) {
 
 #### Get Stream history activity
 
-```
+```javascript
 var publishHistoryOptions = {
    start : null,    // optional, in second, unix timestamp
    end   : null,    // optional, in second, unix timestamp
@@ -237,7 +258,7 @@ stream.publishHistory(publishHistoryOptions, function(err, history) {
 
 #### Save Stream live playback
 
-```
+```javascript
 var savePlaybackOptions = {
    start : null,    // optional, in second, unix timestamp
    end   : null,    // optional, in second, unix timestamp
@@ -251,5 +272,21 @@ stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
 		} else {
 			console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
 		}
+});
+```
+
+#### Save Stream snapshot
+
+```javascript
+var saveSnapshotOptions = {
+    fname: streamKey
+};
+
+stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {
+    if (!err) {
+        console.log(snapshotName);
+    } else {
+        console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
 });
 ```
