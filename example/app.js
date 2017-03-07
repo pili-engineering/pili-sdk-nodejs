@@ -140,9 +140,9 @@ stream.liveInfo(function(err, status) {
  * Get Stream segments
  */
 var savePlaybackOptions = {
-    fname: streamKey,
-    start : null,    // optional, in second, unix timestamp
-    end   : null    // optional, in second, unix timestamp
+    fname: streamKey,   // optional, file name
+    start : null,       // optional, in second, unix timestamp
+    end   : null        // optional, in second, unix timestamp
 };
 
 stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
@@ -158,7 +158,7 @@ stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
  * Get Stream snapshot
  */
 var saveSnapshotOptions = {
-    fname: streamKey
+    fname: streamKey    // optional, file name
 };
 
 stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {

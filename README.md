@@ -279,7 +279,7 @@ stream.savePlayback(savePlaybackOptions, function(err, m3u8Name) {
 
 ```javascript
 var saveSnapshotOptions = {
-    fname: streamKey
+    fname: streamKey    // optional, file name
 };
 
 stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {
