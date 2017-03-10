@@ -170,6 +170,18 @@ stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {
 });
 
 /**
+ * Update Stream Converts
+ */
+stream.updateConverts(['480p', '720p'], function (err) {
+    if (!err) {
+        console.log('update converts success');
+    }
+    else {
+        console.log('update converts error: ' + err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
+})
+
+/**
  *  Get Stream history activity
  */
 
