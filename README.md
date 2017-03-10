@@ -27,6 +27,7 @@
       - [Get Stream history activity](#get-stream-history-activity)
       - [Save Stream live playback](#save-stream-live-playback)
       - [Save Stream snapshot](#save-stream-snapshot)
+      - [Update Stream converts](#update-stream-converts)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -54,6 +55,7 @@
 	- [x] 保存直播回放: stream.Save(start, end)
 	- [x] 查询直播历史: stream.HistoryActivity(start, end)
 	- [x] 保存直播截图: stream.saveSnapshot()
+	- [x] 修改流转码配置: stream.updateConverts(profiles)
 
 
 ## Installaion
@@ -289,4 +291,17 @@ stream.saveSnapshot(saveSnapshotOptions, function(err, snapshotName) {
         console.log(err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
     }
 });
+```
+
+#### Update Stream converts
+
+```javascript
+stream.updateConverts(['480p', '720p'], function (err) {
+    if (!err) {
+        console.log('update converts success');
+    }
+    else {
+        console.log('update converts error: ' + err + 'error code: ' + err.errorCode + 'http code: ' + err.httpCode);
+    }
+})
 ```
