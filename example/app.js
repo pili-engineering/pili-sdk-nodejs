@@ -85,7 +85,7 @@ hub.listStreams(listOptions, listCallBack);
 /**
  * Get Streams Live Info
  */
-hub.listLiveStreams([streamKey], function (err, items) {
+hub.batchLiveStreamsInfo([streamKey], function (err, items) {
     if (!err) {
         console.log('live streams: ');
         items.forEach(function(item) {

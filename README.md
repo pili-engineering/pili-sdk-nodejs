@@ -45,7 +45,7 @@
 	- [x] 获得流: hub.Stream(streamKey)
 	- [x] 列出流: hub.List(prefix, limit, marker)
 	- [x] 列出正在直播的流: hub.ListLive(prefix, limit, marker)
-	- [x] 批量查询直播实时信息: hub.listLiveStreams(items) 
+	- [x] 批量查询直播实时信息: hub.batchLiveStreamsInfo(items) 
 - Stream
 	- [x] 流信息: stream.Info()
 	- [x] 禁用流: stream.Disable()
@@ -197,7 +197,7 @@ hub.listStreams(listOptions, listCallBack);
 #### Get Streams live status
 
 ```javascript
-hub.listLiveStreams([streamKey], function (err, items) {
+hub.batchLiveStreamsInfo([streamKey], function (err, items) {
     if (!err) {
         console.log('live streams: ');
         items.forEach(function(item) {
