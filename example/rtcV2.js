@@ -18,39 +18,45 @@ var HUB = 'qiniu-pili-test'; // The Hub must be exists before use
  * Instantiate a Pili rtc object
  */
 var credentials = new Pili.Credentials(ACCESS_KEY, SECRET_KEY);
-var rtc = new Pili.RTC(credentials);
+var rtc = new Pili.RTCV2(credentials);
 
-var roomName = 'roomName2';
+var roomName = "room1";
 var ownerID = 'ownerID';
 rtc.createRoom(ownerID, roomName, {}, function(err, roomInfo) {
     if (!err) {
-        console.log(roomInfo);
-        rtc.getRoom(roomInfo.room_name, function(err, info) {
-            if (!err) {
-                console.log(info);
-                rtc.deleteRoom(roomInfo.room_name, function(err) {
-                    if (!err) {
-                        console.log("delete ok");
-                    } else {
-                        console.log(err);
-                    }
-                })
-            } else {
-                console.log(err);
-            }
-        })
+        console.log("success")
+        console.log(roomInfo)
     } else {
-        console.log(err);
-        rtc.deleteRoom(roomName, function(err) {});
+        console.log("oops")
+        console.log(err)
     }
 })
 
+rtc.getRoom(roomName, function(err, roomInfo) {
+    if (!err) {
+        console.log("success")
+        console.log(roomInfo)
+    } else {
+        console.log("oops")
+        console.log(err)
+    }
+})
+
+rtc.deleteRoom(roomName, function(err) {
+    if (!err) {
+        console.log("success")
+        console.log("delete OK")
+    } else {
+        console.log("oops")
+        console.log(err)
+    }
+})
+
+
 var roomToken = rtc.roomToken({
+    "version": "2.0",
     "room_name": roomName,
     "user_id": ownerID,
     "perm": "user"
 })
 console.log(roomToken);
-
-
-
