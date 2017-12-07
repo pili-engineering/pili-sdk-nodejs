@@ -7,8 +7,8 @@ var Pili = require('../index.js');
 
 // ======================== Configurations =========================
 // Replace with your keys here
-var ACCESS_KEY = 'FMVCRs2-LO1ivNi4l7mEZE6ZDvPv-519D12kZCO';
-var SECRET_KEY = 'InOXBls8alaPicFn002XsoXKFw1iFJZxcoOvAeY';
+var ACCESS_KEY = 'FMVCRs2-LO1ivRNi4l7mEZE6ZDvPv-519D12kZCO';
+var SECRET_KEY = 'InOXBls8alaPiRcFn002XsoXKFw1iFJZxcoOvAeY';
 
 // Replace with your hub name
 var HUB = 'qiniu-pili-test'; // The Hub must be exists before use
