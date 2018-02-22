@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-- "5"
+- '5'
 deploy:
   provider: npm
-  email: "sdk@qiniu.com"
+  email: sdk@qiniu.com
   api_key:
-    secure: O46FsywFgTyqwdf2tN5AXIJe3gnCjSHZT8tPfxl1TGY+p3iu0clixN8+nBvAqdnQvKu3Z4hmNhOd3zLdDbSsZoEWu6AhS+ySJWkkvM0rdIt9+wcVNWDyKd6WcW3bm1kq5KsLi1xM9VPfto5M/qYQRMg1RoCGDdxaAra4a6SH2Bs=
+    secure: RoIRqmuGIVqMf6ZeE+HSo1WtjuSMUFwg+fm7DP8UL2S7JOylxKBD4xmyP+b16YGVpdpvyNuefeCPqZmSRu/Tx5XwJOi5WSF16585PqrUtuaWRTVDWGJUAfRejJRGNmHXq3yRiK79jbHMiRlEkEEg4I/T3xfXFl8K0FTRdlbuUH4=
   on:
     tags: true
