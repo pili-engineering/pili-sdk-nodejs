@@ -52,7 +52,7 @@
 	- [x] 禁用流: stream.Disable()
 	- [x] 启用流: stream.Enable()
  	- [x] 查询直播状态: stream.LiveStatus()
-	- [x] 保存直播回放: stream.Save(start, end)
+	- [x] 保存直播回放: stream.savePlayback(start, end)
 	- [x] 查询直播历史: stream.HistoryActivity(start, end)
 	- [x] 保存直播截图: stream.saveSnapshot()
 	- [x] 修改流转码配置: stream.updateConverts(profiles)
